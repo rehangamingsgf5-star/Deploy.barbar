@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ironside Barbers – Cuts, shaves and beard care</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#F8F2EE; --ink:#151515; --orange:#F47B10; --peach:#FDDDC3; --sand:#E4D5CC; --muted:#6b625c;
+  --radius-lg:28px; --radius-md:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--cream);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+:focus-visible{outline:3px solid var(--orange);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+
+/* nav */
+header{position:sticky;top:0;z-index:20;background:rgba(248,242,238,.92);backdrop-filter:blur(8px)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:76px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.02em}
+.logo b{color:var(--orange)}
+.nav ul{display:flex;gap:40px;list-style:none;font-size:15px;color:var(--muted)}
+.nav ul a:hover{color:var(--ink)}
+.cart{position:relative;width:44px;height:44px;display:grid;place-items:center;border-radius:50%}
+.cart:hover{background:var(--peach)}
+.cart span{position:absolute;top:4px;right:2px;min-width:18px;height:18px;border-radius:9px;background:var(--orange);color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center;padding:0 4px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--orange);color:#fff;padding:16px 28px;border-radius:12px;font-weight:700;font-size:15px;transition:transform .15s,background .15s}
+.btn:hover{background:#dd6a05;transform:translateY(-2px)}
+.btn.dark{background:var(--ink)}
+.btn.dark:hover{background:#333}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center;padding:56px 0 88px}
+h1{font-size:clamp(44px,6.2vw,76px);line-height:1.02;font-weight:800;letter-spacing:-.03em}
+.hero p{margin:28px 0 36px;max-width:440px;color:var(--muted);font-size:17px}
+.hero-cta{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.hours{display:inline-flex;align-items:center;gap:10px;font-size:14px;color:var(--muted)}
+.dot{width:10px;height:10px;border-radius:50%;background:#2fa84f;box-shadow:0 0 0 4px rgba(47,168,79,.18)}
+.dot.closed{background:#c0392b;box-shadow:0 0 0 4px rgba(192,57,43,.18)}
+
+.stage{position:relative;aspect-ratio:1/1.02;max-width:520px;width:100%;margin-left:auto}
+.stage .disc{position:absolute;inset:6% 6% 0 6%;background:var(--peach);border-radius:50% 50% var(--radius-lg) var(--radius-lg)}
+.stage svg.tools{position:absolute;inset:0;width:100%;height:100%}
+.chip{position:absolute;right:-6px;display:flex;align-items:center;gap:12px;background:var(--cream);padding:10px 20px 10px 10px;border-radius:60px;box-shadow:0 10px 30px rgba(60,30,0,.12);font-size:13px;color:var(--muted)}
+.chip i{width:44px;height:44px;border-radius:50%;background:var(--peach);display:grid;place-items:center}
+.chip strong{display:block;color:var(--ink);font-size:20px;line-height:1.1}
+.chip.c1{top:10%}.chip.c2{top:36%;right:-30px}.chip.c3{top:62%}
+.bundle{position:absolute;left:-30px;bottom:6%;background:linear-gradient(135deg,#fde4cd,#e9b184);padding:20px 26px;border-radius:22px;display:flex;align-items:center;gap:26px;box-shadow:0 14px 34px rgba(120,60,0,.2)}
+.bundle span{font-size:14px;font-weight:600;line-height:1.3}
+.bundle b{font-size:46px;font-weight:800;letter-spacing:-.03em}
+.bundle b sup{font-size:18px}
+
+/* products band */
+.band{background:var(--ink);color:#fff;padding:56px 0}
+.band-grid{display:grid;grid-template-columns:200px 1fr 1fr 1fr;gap:32px;align-items:center}
+.band h2{font-size:28px;line-height:1.15;font-weight:700}
+.product{display:flex;align-items:center;gap:20px}
+.product .pic{flex:none;width:100px;height:100px;border-radius:50%;border:1px solid #444;display:grid;place-items:center}
+.stars{color:#ffb300;letter-spacing:2px;font-size:14px}
+.stars em{color:#555;font-style:normal}
+.product h3{font-size:19px;font-weight:600;margin:2px 0 4px}
+.price{color:var(--orange);font-weight:700;font-size:19px}
+.add{margin-top:6px;font-size:13px;color:#ccc;text-decoration:underline;text-underline-offset:3px}
+.add:hover{color:#fff}
+
+/* sections */
+section{padding:96px 0}
+.head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:48px;flex-wrap:wrap}
+h2.big{font-size:clamp(34px,4.2vw,52px);line-height:1.05;font-weight:800;letter-spacing:-.025em;max-width:560px}
+.head p{max-width:380px;color:var(--muted)}
+
+/* services */
+.menu{border-top:2px solid var(--ink)}
+.row{display:grid;grid-template-columns:70px 1fr auto auto;gap:24px;align-items:center;padding:26px 0;border-bottom:1px solid var(--sand)}
+.row .ico{width:56px;height:56px;border-radius:50%;background:var(--peach);display:grid;place-items:center}
+.row h3{font-size:22px;font-weight:700}
+.row p{color:var(--muted);font-size:15px}
+.row .time{color:var(--muted);font-size:14px}
+.row .amt{font-size:26px;font-weight:800;min-width:90px;text-align:right}
+
+/* team */
+.team{background:var(--peach);border-radius:var(--radius-lg);padding:56px;display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+.team h3{font-size:22px;font-weight:700;margin:18px 0 2px}
+.team .role{color:var(--orange);font-weight:700;font-size:14px;margin-bottom:10px}
+.team p{font-size:15px;color:#4a403a}
+.avatar{width:84px;height:84px;border-radius:50%;background:var(--ink);display:grid;place-items:center;color:var(--cream);font-weight:800;font-size:28px}
+
+/* booking */
+.book{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.panel{background:#fff;border-radius:var(--radius-lg);padding:36px;box-shadow:0 20px 50px rgba(60,30,0,.08)}
+fieldset{border:0;margin-bottom:24px}
+legend,label.l{font-weight:700;font-size:15px;margin-bottom:10px;display:block}
+.opts{display:flex;flex-wrap:wrap;gap:10px}
+.opt input{position:absolute;opacity:0}
+.opt span{display:inline-block;padding:11px 18px;border-radius:40px;border:1.5px solid var(--sand);font-size:15px;cursor:pointer;transition:.15s}
+.opt input:checked+span{background:var(--ink);border-color:var(--ink);color:#fff}
+.opt input:focus-visible+span{outline:3px solid var(--orange);outline-offset:2px}
+.opt span:hover{border-color:var(--ink)}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+.fields div.full{grid-column:1/-1}
+input[type=text],input[type=date],input[type=tel]{width:100%;padding:14px 16px;border-radius:12px;border:1.5px solid var(--sand);font:inherit;background:var(--cream)}
+input[type=text]:focus,input[type=date]:focus,input[type=tel]:focus{outline:3px solid var(--orange);outline-offset:1px;border-color:var(--orange)}
+.total{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-top:1px dashed var(--sand);margin-bottom:20px;font-weight:700}
+.total b{font-size:30px}
+.panel .btn{width:100%}
+.confirm{display:none;margin-top:18px;padding:16px;border-radius:12px;background:#e8f6ec;color:#17602d;font-weight:600}
+.confirm.show{display:block}
+.err{color:#b3261e;font-size:14px;margin-top:10px;min-height:20px}
+.info h3{font-size:20px;font-weight:700;margin-bottom:6px}
+.info dl{margin:26px 0}
+.info dt{font-weight:700;margin-top:18px}
+.info dd{color:var(--muted)}
+.hrs{width:100%;border-collapse:collapse;margin-top:8px}
+.hrs td{padding:9px 0;border-bottom:1px solid var(--sand);font-size:15px}
+.hrs td:last-child{text-align:right;color:var(--muted)}
+.hrs tr.today td{font-weight:700;color:var(--ink)}
+
+footer{background:var(--ink);color:#bbb;padding:48px 0;font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+footer .logo{color:#fff}
+
+@media(max-width:960px){
+  .hero{grid-template-columns:1fr;padding-bottom:60px}
+  .stage{margin:20px auto 0}
+  .chip{right:0}.chip.c2{right:0}
+  .bundle{left:0}
+  .band-grid{grid-template-columns:1fr 1fr}
+  .band h2{grid-column:1/-1}
+  .book{grid-template-columns:1fr}
+  .team{grid-template-columns:1fr;padding:36px}
+}
+@media(max-width:640px){
+  .wrap{padding:0 20px}
+  .nav ul{display:none}
+  .band-grid{grid-template-columns:1fr}
+  .row{grid-template-columns:56px 1fr auto;gap:16px}
+  .row .time{display:none}
+  .row .ico{width:48px;height:48px}
+  section{padding:64px 0}
+  .fields{grid-template-columns:1fr}
+  .panel{padding:24px}
+  .bundle b{font-size:36px}
+  .chip{transform:scale(.88);transform-origin:right center}
+}
+
+/* ---------- motion ---------- */
+body{overflow-x:clip}
+section,#shop{scroll-margin-top:90px}
+@keyframes rise{from{opacity:0;translate:0 28px}to{opacity:1;translate:0 0}}
+@keyframes word{from{opacity:0;transform:translateY(45%) rotate(3deg)}to{opacity:1;transform:none}}
+@keyframes disc{from{opacity:0;transform:scale(.45)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;scale:.5}to{opacity:1;scale:1}}
+@keyframes floaty{0%,100%{translate:0 0}50%{translate:0 -9px}}
+@keyframes slidein{from{opacity:0;translate:-40px 20px}to{opacity:1;translate:0 0}}
+@keyframes marq{to{transform:translateX(-50%)}}
+@keyframes bump{0%{transform:scale(1)}40%{transform:scale(1.5)}100%{transform:scale(1)}}
+@keyframes snipA{0%{transform:rotate(18deg)}35%{transform:rotate(-4deg)}60%{transform:rotate(12deg)}100%{transform:rotate(0)}}
+@keyframes snipB{0%{transform:rotate(-18deg)}35%{transform:rotate(4deg)}60%{transform:rotate(-12deg)}100%{transform:rotate(0)}}
+
+.blade-a{transform-origin:260px 300px;animation:snipA 1.4s .5s ease-out both}
+.blade-b{transform-origin:260px 300px;animation:snipB 1.4s .5s ease-out both}
+
+/* hero load sequence */
+.w{display:inline-block;opacity:0;animation:word .8s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:calc(var(--i) * 70ms + 100ms)}
+.hero .lead{animation:rise .8s cubic-bezier(.2,.7,.2,1) 700ms both}
+.hero-cta{animation:rise .8s cubic-bezier(.2,.7,.2,1) 850ms both}
+.hero .hours{animation:rise .8s cubic-bezier(.2,.7,.2,1) 1000ms both}
+.stage .disc{transform-origin:50% 100%;animation:disc 1s cubic-bezier(.2,.8,.2,1) both}
+.chip,.bundle{will-change:translate}
+.chip{animation:pop .7s cubic-bezier(.3,1.5,.5,1) var(--d,900ms) both,floaty 6s ease-in-out calc(var(--d,900ms) + .7s) infinite}
+.chip.c2{animation-duration:.7s,7s}
+.chip.c3{animation-duration:.7s,5.5s}
+.bundle{animation:slidein .9s cubic-bezier(.2,.8,.2,1) 1.2s both}
+.stage{cursor:pointer}
+
+/* nav */
+header{transition:box-shadow .3s}
+header.scrolled{box-shadow:0 6px 24px rgba(60,30,0,.08)}
+.nav ul a{position:relative;padding:6px 0}
+.nav ul a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--orange);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.nav ul a:hover::after{transform:scaleX(1)}
+.cart span.bump{animation:bump .4s}
+
+/* buttons */
+.btn{position:relative;overflow:hidden}
+.btn::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.38) 50%,transparent 70%);translate:-120% 0;transition:translate .6s}
+.btn:hover::after{translate:120% 0}
+
+/* ticker */
+.ticker{background:var(--orange);color:#fff;overflow:hidden;white-space:nowrap;padding:16px 0;font-weight:700;font-size:19px}
+.ticker .track{display:inline-flex;animation:marq 32s linear infinite}
+.ticker:hover .track{animation-play-state:paused}
+.ticker .grp{display:inline-flex}
+.ticker span{display:inline-flex;align-items:center;padding-left:28px}
+.ticker span::after{content:"";width:9px;height:9px;background:var(--ink);transform:rotate(45deg);margin:0 28px 0 56px}
+
+/* product + service hovers */
+.product .pic{transition:transform .35s cubic-bezier(.3,1.4,.5,1),border-color .3s}
+.product:hover .pic{transform:rotate(-8deg) scale(1.08);border-color:var(--orange)}
+.row{transition:background .3s,padding .3s}
+.row:hover{background:linear-gradient(90deg,var(--peach),rgba(253,221,195,0) 70%);padding-left:16px}
+.row .ico{transition:transform .35s cubic-bezier(.3,1.4,.5,1)}
+.row:hover .ico{transform:rotate(-14deg) scale(1.1)}
+.row .amt{transition:color .3s}
+.row:hover .amt{color:var(--orange)}
+.team>div{transition:transform .3s}
+.team>div:hover{transform:translateY(-6px)}
+.avatar{transition:background .3s,transform .35s cubic-bezier(.3,1.4,.5,1)}
+.team>div:hover .avatar{background:var(--orange);transform:scale(1.08)}
+.opt span{transition:background .2s,border-color .2s,color .2s,transform .2s}
+.opt input:checked+span{transform:scale(1.04)}
+.confirm.show{animation:rise .5s both}
+.total b{display:inline-block;transition:transform .25s}
+.total b.tick{transform:scale(1.18);color:var(--orange)}
+
+/* scroll reveal */
+.reveal{opacity:0}
+.reveal.in{animation:rise .8s cubic-bezier(.2,.7,.2,1) var(--d,0ms) both}
+
+
+/* ---------- 3D styles studio ---------- */
+.studio{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center}
+.viewer{position:relative;aspect-ratio:1/1;border-radius:var(--radius-lg);background:radial-gradient(circle at 50% 36%,#fff1e2 0,var(--peach) 52%,#f0b27f 100%);overflow:hidden;touch-action:pan-y}
+.viewer canvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab;touch-action:pan-y}
+.viewer canvas:active{cursor:grabbing}
+.fallback{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:30px;color:#6a3d17;font-weight:600}
+.fallback[hidden]{display:none}
+.viewer.busy::after{content:"Styling...";position:absolute;top:18px;right:20px;background:var(--ink);color:#fff;padding:8px 16px;border-radius:30px;font-size:13px;font-weight:600}
+.hint{position:absolute;top:18px;left:22px;font-size:14px;font-weight:600;color:#7a4a22;pointer-events:none}
+.views{position:absolute;left:50%;bottom:18px;translate:-50% 0;display:flex;gap:4px;background:rgba(21,21,21,.92);padding:6px;border-radius:40px;white-space:nowrap}
+.views button{color:#fff;padding:9px 16px;border-radius:30px;font-size:14px;font-weight:600;transition:background .2s}
+.views button:hover{background:#3a3a3a}
+.views button[aria-pressed=true]{background:var(--orange)}
+.views .sep{width:1px;background:#444;margin:6px 4px}
+.stylelist{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:26px}
+.stylebtn{text-align:left;padding:14px 16px;border-radius:var(--radius-md);border:1.5px solid var(--sand);background:#fff;transition:background .2s,border-color .2s,color .2s,transform .2s}
+.stylebtn strong{display:block;font-size:16px;line-height:1.25}
+.stylebtn small{color:var(--muted);font-size:13px;line-height:1.3;display:block;margin-top:2px;transition:color .2s}
+.stylebtn:hover{border-color:var(--ink);transform:translateY(-2px)}
+.stylebtn[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:#fff}
+.stylebtn[aria-pressed=true] small{color:#cfc7c1}
+.detail h3{font-size:clamp(28px,3vw,38px);font-weight:800;letter-spacing:-.025em;line-height:1.1}
+.detail p{color:var(--muted);margin:10px 0 16px;max-width:46ch}
+.meta{display:flex;align-items:baseline;gap:14px}
+.meta strong{font-size:34px;font-weight:800;letter-spacing:-.02em}
+.meta span{color:var(--muted);font-size:15px}
+.detail.swap{animation:rise .45s cubic-bezier(.2,.7,.2,1) both}
+.ctrl{display:flex;gap:32px;flex-wrap:wrap;margin:26px 0 28px;align-items:flex-end}
+.cl{font-weight:700;font-size:14px;display:block;margin-bottom:10px}
+.swatches{display:flex;gap:10px}
+.sw{width:34px;height:34px;border-radius:50%;border:3px solid var(--cream);box-shadow:0 0 0 1.5px var(--sand);transition:box-shadow .2s,transform .2s}
+.sw:hover{transform:scale(1.1)}
+.sw[aria-pressed=true]{box-shadow:0 0 0 2.5px var(--ink)}
+.stylenote{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--peach);border-radius:12px;padding:12px 16px;margin:-8px 0 24px;font-weight:600;font-size:15px}
+.stylenote[hidden]{display:none}
+.stylenote button{font-size:14px;text-decoration:underline;text-underline-offset:3px;color:#6a3d17}
+@media(max-width:960px){
+  .studio{grid-template-columns:1fr;gap:32px}
+  .viewer{aspect-ratio:1/1;max-height:560px}
+}
+@media(max-width:640px){
+  .viewer{aspect-ratio:4/5}
+  .views button{padding:9px 12px;font-size:13px}
+  .stylebtn{padding:12px 14px}
+  .stylebtn small{display:none}
+}
+@media(min-width:1440px){.studio{gap:80px}.viewer{max-height:700px}}
+/* ---------- desktop responsive ---------- */
+.info{position:sticky;top:110px}
+@media(min-width:961px) and (min-height:760px){.hero{min-height:min(740px,calc(100vh - 76px))}}
+@media(min-width:961px) and (max-width:1180px){
+  .hero{gap:24px}
+  .band-grid{grid-template-columns:repeat(3,1fr);gap:28px}
+  .band h2{grid-column:1/-1}
+  .chip.c2{right:-10px}.bundle{left:-10px}
+}
+@media(min-width:1440px){
+  .wrap{max-width:1360px}
+  .hero{padding:80px 0 120px;gap:64px}
+  h1{font-size:88px}
+  .hero p{font-size:19px;max-width:500px}
+  .stage{max-width:620px}
+  .chip{font-size:14px}.chip strong{font-size:23px}
+  .bundle b{font-size:54px}
+  .row h3{font-size:25px}.row .amt{font-size:30px}
+  .band-grid{grid-template-columns:240px 1fr 1fr 1fr}
+  .product .pic{width:120px;height:120px}
+  .product h3{font-size:21px}
+  h2.big{font-size:58px;max-width:640px}
+  section{padding:120px 0}
+}
+@media(min-width:1800px){
+  .wrap{max-width:1600px}
+  h1{font-size:104px}
+  .hero p{font-size:21px;max-width:560px}
+  .stage{max-width:700px}
+  .nav{height:88px}
+}
+@media(max-width:960px){.info{position:static}}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .w,.reveal,.chip,.bundle,.hero .lead,.hero-cta,.hero .hours,.stage .disc{opacity:1!important}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a href="#top" class="logo" aria-label="Ironside Barbers home">
+      <svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="#F47B10" stroke-width="2.2" stroke-linecap="round"><circle cx="15" cy="15" r="13"/><path d="M10 22c0-8 3-12 9-14M13 23c0-6 2-9 7-11M16 24c0-4 2-6 5-7"/></svg>
+      IRONSIDE<b>BARBERS</b>
+    </a>
+    <nav aria-label="Main"><ul>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#styles">Styles</a></li>
+      <li><a href="#shop">Shop</a></li>
+      <li><a href="#team">Barbers</a></li>
+      <li><a href="#book">Book</a></li>
+    </ul></nav>
+    <a class="cart" href="#shop" aria-label="Cart">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.2 11h10.6L20 7H6"/><circle cx="9" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg>
+      <span id="cartCount" aria-live="polite">0</span>
+    </a>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap hero">
+    <div>
+      <h1>A smooth shave and a sharp cut, right in your town.</h1>
+      <p class="lead">Straight-razor shaves, classic and modern cuts, and beard care from barbers who have been doing this for over twenty years.</p>
+      <div class="hero-cta">
+        <a href="#book" class="btn">Book an appointment</a>
+        <a href="#services" class="btn dark" aria-label="See services and prices">See prices</a>
+      </div>
+      <p class="hours" style="margin-top:28px"><span class="dot" id="dot"></span><span id="openText">Open today 9:00–19:00</span></p>
+    </div>
+
+    <div class="stage">
+      <div class="disc"></div>
+      <svg class="tools" viewBox="0 0 520 530" aria-label="Crossed barber scissors and a straight razor" role="img">
+        <!-- razor -->
+        <g transform="rotate(-28 260 300)">
+          <rect x="236" y="60" width="26" height="250" rx="6" fill="#151515"/>
+          <path d="M262 70 L290 70 Q300 190 262 300 Z" fill="#d9d9d9"/>
+          <path d="M262 70 L290 70 Q296 120 290 150 L262 150Z" fill="#fff" opacity=".6"/>
+          <rect x="228" y="300" width="42" height="170" rx="16" fill="#F47B10"/>
+          <circle cx="249" cy="318" r="5" fill="#151515"/>
+        </g>
+        <!-- scissors -->
+        <g class="blade-a">
+          <path d="M260 300 L170 40 L196 34 L282 290Z" fill="#2a2a2a"/>
+          <path d="M260 300 L180 70 L190 68 L270 296Z" fill="#8a8a8a" opacity=".7"/>
+          <path d="M250 300 L215 410" stroke="#151515" stroke-width="14" stroke-linecap="round"/>
+          <ellipse cx="205" cy="440" rx="46" ry="38" fill="none" stroke="#151515" stroke-width="14"/>
+        </g>
+        <g class="blade-b">
+          <path d="M260 300 L350 40 L324 34 L238 290Z" fill="#555"/>
+          <path d="M260 300 L340 70 L330 68 L250 296Z" fill="#d5d5d5" opacity=".7"/>
+          <path d="M270 300 L305 410" stroke="#F47B10" stroke-width="14" stroke-linecap="round"/>
+          <ellipse cx="315" cy="440" rx="46" ry="38" fill="none" stroke="#F47B10" stroke-width="14"/>
+        </g>
+        <circle cx="260" cy="300" r="12" fill="#F47B10" stroke="#151515" stroke-width="4"/>
+      </svg>
+
+      <div class="chip c1" style="--d:900ms"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F47B10" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M8.5 7.5L20 19M8.5 16.5L20 5"/></svg></i><div><strong>$55</strong>Haircut</div></div>
+      <div class="chip c2" style="--d:1050ms"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F47B10" stroke-width="2" stroke-linecap="round"><path d="M5 20L14 5l5 3-9 15z"/></svg></i><div><strong>$50</strong>Shave</div></div>
+      <div class="chip c3" style="--d:1200ms"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F47B10" stroke-width="2" stroke-linecap="round"><path d="M6 10h12l-1 9H7z"/><path d="M9 10V5h6v5"/></svg></i><div><strong>$35</strong>Beard trim</div></div>
+      <div class="bundle"><span>Monthly care<br>bundle</span><b>$<span id="bn">75</span></b></div>
+    </div>
+  </div>
+
+  <div class="ticker"><div class="track"><div class="grp"><span>Hot towel shaves</span><span>Classic and modern cuts</span><span>Beard shaping</span><span>Monthly care bundle</span><span>Walk-ins welcome</span></div><div class="grp" aria-hidden="true"><span>Hot towel shaves</span><span>Classic and modern cuts</span><span>Beard shaping</span><span>Monthly care bundle</span><span>Walk-ins welcome</span></div></div></div>
+
+  <!-- best sellers -->
+  <div class="band" id="shop">
+    <div class="wrap band-grid">
+      <h2>Best-selling products</h2>
+      <article class="product">
+        <div class="pic"><svg width="40" height="66" viewBox="0 0 40 66"><rect x="14" y="2" width="12" height="12" rx="3" fill="#8b6b45"/><rect x="16" y="12" width="8" height="8" fill="#333"/><rect x="5" y="20" width="30" height="44" rx="6" fill="#e8dcc4"/><rect x="10" y="32" width="20" height="16" rx="2" fill="#151515" opacity=".75"/></svg></div>
+        <div>
+          <div class="stars" aria-label="4 out of 5 stars">★★★★<em>★</em></div>
+          <h3>Beard growth oil</h3>
+          <div class="price">$49.00</div>
+          <button class="add" data-add>Add to cart</button>
+        </div>
+      </article>
+      <article class="product">
+        <div class="pic"><svg width="40" height="66" viewBox="0 0 40 66"><rect x="14" y="2" width="12" height="12" rx="3" fill="#151515" stroke="#8b6b45"/><rect x="16" y="12" width="8" height="8" fill="#333"/><rect x="5" y="20" width="30" height="44" rx="6" fill="#b4691c"/><rect x="10" y="32" width="20" height="16" rx="2" fill="#151515" opacity=".8"/></svg></div>
+        <div>
+          <div class="stars" aria-label="4 out of 5 stars">★★★★<em>★</em></div>
+          <h3>Beard growth vitamins</h3>
+          <div class="price">$129.00</div>
+          <button class="add" data-add>Add to cart</button>
+        </div>
+      </article>
+      <article class="product">
+        <div class="pic"><svg width="50" height="50" viewBox="0 0 50 50"><rect x="6" y="18" width="38" height="24" rx="6" fill="#d8cbb8"/><rect x="9" y="12" width="32" height="8" rx="3" fill="#151515"/></svg></div>
+        <div>
+          <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <h3>Matte hair clay</h3>
+          <div class="price">$24.00</div>
+          <button class="add" data-add>Add to cart</button>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <!-- services -->
+  <section id="services">
+    <div class="wrap">
+      <div class="head">
+        <h2 class="big">What we do, and what it costs</h2>
+        <p>Every visit includes a hot towel and a consultation. No hidden extras.</p>
+      </div>
+      <div class="menu">
+        <div class="row">
+          <div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#F47B10" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M8.5 7.5L20 19M8.5 16.5L20 5"/></svg></div>
+          <div><h3>Haircut</h3><p>Scissor or clipper cut, neckline clean-up, and styling.</p></div>
+          <span class="time">45 min</span><span class="amt">$55</span>
+        </div>
+        <div class="row">
+          <div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#F47B10" stroke-width="2" stroke-linecap="round"><path d="M5 20L14 5l5 3-9 15z"/></svg></div>
+          <div><h3>Hot towel shave</h3><p class="lead">Straight-razor shave with warm towels and aftershave balm.</p></div>
+          <span class="time">30 min</span><span class="amt">$50</span>
+        </div>
+        <div class="row">
+          <div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#F47B10" stroke-width="2" stroke-linecap="round"><path d="M6 10h12l-1 9H7z"/><path d="M9 10V5h6v5"/></svg></div>
+          <div><h3>Beard trim</h3><p>Shape, line-up, and oil treatment for beards of any length.</p></div>
+          <span class="time">25 min</span><span class="amt">$35</span>
+        </div>
+        <div class="row">
+          <div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#F47B10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5z"/></svg></div>
+          <div><h3>Monthly care bundle</h3><p>One haircut, one beard trim, and one shave each month. Saves $65.</p></div>
+          <span class="time">Monthly</span><span class="amt">$75</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- styles -->
+  <section id="styles" style="padding-top:0">
+    <div class="wrap">
+      <div class="head">
+        <h2 class="big">Pick a style and see it from every side</h2>
+        <p>Spin the 3D model, try hair and skin colours, add a beard, then book the cut you like.</p>
+      </div>
+      <div class="studio">
+        <div class="viewer">
+          <canvas id="c3d" tabindex="0" role="img" aria-label="3D model showing the selected haircut. Drag to rotate, or use the left and right arrow keys."></canvas>
+          <div class="fallback" id="fb" hidden>The 3D view could not load. Check your connection and refresh the page.</div>
+          <span class="hint">Drag to rotate</span>
+          <div class="views" role="group" aria-label="Camera view">
+            <button type="button" data-a="0">Front</button>
+            <button type="button" data-a="1.5708">Side</button>
+            <button type="button" data-a="3.1416">Back</button>
+            <span class="sep"></span>
+            <button type="button" id="autoBtn" aria-pressed="true">Auto-rotate</button>
+          </div>
+        </div>
+        <div class="side">
+          <div class="stylelist" id="stylelist" role="group" aria-label="Haircut styles"></div>
+          <div class="detail" id="detail">
+            <h3 id="dName"></h3>
+            <p id="dDesc"></p>
+            <div class="meta"><strong>$55</strong><span id="dTime"></span></div>
+          </div>
+          <div class="ctrl">
+            <div><span class="cl">Hair colour</span><div class="swatches" id="hairSw" role="group" aria-label="Hair colour"></div></div>
+            <div><span class="cl">Skin tone</span><div class="swatches" id="skinSw" role="group" aria-label="Skin tone"></div></div>
+            <div><span class="cl">Beard</span><label class="opt"><input type="checkbox" id="beard"><span>Show beard</span></label></div>
+          </div>
+          <a class="btn" id="bookStyle" href="#book">Book this style</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- team -->
+  <section id="team" style="padding-top:0">
+    <div class="wrap">
+      <div class="team">
+        <div><div class="avatar">M</div><h3>Marcus Hale</h3><div class="role">Owner, master barber</div><p>Twenty-two years behind the chair. Specialises in classic cuts and straight-razor work.</p></div>
+        <div><div class="avatar">D</div><h3>Dario Vega</h3><div class="role">Senior barber</div><p>Fades, textured crops, and anything that needs a sharp line-up.</p></div>
+        <div><div class="avatar">T</div><h3>Tomas Reid</h3><div class="role">Beard specialist</div><p>Shaping, conditioning, and growth plans for patchy or unruly beards.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- booking -->
+  <section id="book" style="padding-top:0">
+    <div class="wrap book">
+      <div class="panel">
+        <h2 class="big" style="font-size:34px;margin-bottom:28px">Book your chair</h2>
+        <p class="stylenote" id="styleNote" hidden><span></span><button type="button" id="clearStyle">Clear</button></p>
+        <form id="bookingForm" novalidate>
+          <fieldset>
+            <legend>Services</legend>
+            <div class="opts">
+              <label class="opt"><input type="checkbox" name="svc" value="55" data-name="Haircut"><span>Haircut · $55</span></label>
+              <label class="opt"><input type="checkbox" name="svc" value="50" data-name="Shave"><span>Shave · $50</span></label>
+              <label class="opt"><input type="checkbox" name="svc" value="35" data-name="Beard trim"><span>Beard trim · $35</span></label>
+              <label class="opt"><input type="checkbox" name="svc" value="75" data-name="Monthly care bundle"><span>Monthly bundle · $75</span></label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Barber</legend>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="barber" value="Any available" checked><span>Any available</span></label>
+              <label class="opt"><input type="radio" name="barber" value="Marcus"><span>Marcus</span></label>
+              <label class="opt"><input type="radio" name="barber" value="Dario"><span>Dario</span></label>
+              <label class="opt"><input type="radio" name="barber" value="Tomas"><span>Tomas</span></label>
+            </div>
+          </fieldset>
+          <div class="fields">
+            <div><label class="l" for="date">Date</label><input type="date" id="date" required></div>
+            <div><label class="l" style="margin-bottom:10px">Time</label>
+              <div class="opts" id="times"></div></div>
+            <div><label class="l" for="name">Name</label><input type="text" id="name" autocomplete="name" required></div>
+            <div><label class="l" for="phone">Phone</label><input type="tel" id="phone" autocomplete="tel" required></div>
+          </div>
+          <div class="total"><span>Total</span><b id="total">$0</b></div>
+          <button type="submit" class="btn">Confirm booking</button>
+          <p class="err" id="err" role="alert"></p>
+          <div class="confirm" id="confirm" role="status"></div>
+        </form>
+      </div>
+
+      <div class="info">
+        <h2 class="big" style="font-size:34px;margin-bottom:12px">Find the shop</h2>
+        <p style="color:var(--muted)">Walk-ins are welcome when a chair is free, but booking guarantees your slot.</p>
+        <dl>
+          <dt>Address</dt><dd>128 Foundry Street, Old Town</dd>
+          <dt>Phone</dt><dd>(555) 014-2290</dd>
+        </dl>
+        <h3>Opening hours</h3>
+        <table class="hrs" id="hrs">
+          <tr data-d="1"><td>Monday</td><td>9:00–19:00</td></tr>
+          <tr data-d="2"><td>Tuesday</td><td>9:00–19:00</td></tr>
+          <tr data-d="3"><td>Wednesday</td><td>9:00–19:00</td></tr>
+          <tr data-d="4"><td>Thursday</td><td>9:00–20:00</td></tr>
+          <tr data-d="5"><td>Friday</td><td>9:00–20:00</td></tr>
+          <tr data-d="6"><td>Saturday</td><td>8:00–17:00</td></tr>
+          <tr data-d="0"><td>Sunday</td><td>Closed</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a href="#top" class="logo">IRONSIDE<b>BARBERS</b></a>
+    <span>128 Foundry Street, Old Town · (555) 014-2290</span>
+    <span>© 2026 Ironside Barbers</span>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// cart counter
+var pickedStyle=null;
+let count=0;
+document.querySelectorAll('[data-add]').forEach(b=>b.addEventListener('click',()=>{
+  count++;document.getElementById('cartCount').textContent=count;
+  b.textContent='Added';setTimeout(()=>b.textContent='Add to cart',1400);
+}));
+
+// today's hours highlight + open status
+const hours={0:null,1:[9,19],2:[9,19],3:[9,19],4:[9,20],5:[9,20],6:[8,17]};
+const now=new Date(),d=now.getDay(),h=now.getHours()+now.getMinutes()/60;
+document.querySelector('#hrs tr[data-d="'+d+'"]').classList.add('today');
+const t=hours[d],open=t&&h>=t[0]&&h<t[1];
+document.getElementById('dot').classList.toggle('closed',!open);
+document.getElementById('openText').textContent=open?'Open now until '+t[1]+':00':(t?'Closed now · opens '+t[0]+':00 today':'Closed today · opens Monday 9:00');
+
+// booking
+const form=document.getElementById('bookingForm'),dateEl=document.getElementById('date'),timesEl=document.getElementById('times');
+const iso=x=>x.toISOString().slice(0,10);
+dateEl.min=iso(now);dateEl.value=iso(now);
+
+function buildTimes(){
+  const day=new Date(dateEl.value+'T12:00').getDay(),rng=hours[day];
+  timesEl.innerHTML='';
+  if(!rng){timesEl.innerHTML='<span style="color:var(--muted);font-size:14px">Closed that day</span>';return}
+  const isToday=dateEl.value===iso(now);let first=true;
+  for(let x=rng[0];x<rng[1];x++){
+    if(isToday&&x<=h)continue;
+    const id='t'+x,l=document.createElement('label');l.className='opt';
+    l.innerHTML='<input type="radio" name="time" value="'+x+':00" id="'+id+'"'+(first?' checked':'')+'><span>'+x+':00</span>';
+    timesEl.appendChild(l);first=false;
+  }
+  if(first)timesEl.innerHTML='<span style="color:var(--muted);font-size:14px">No slots left today</span>';
+}
+dateEl.addEventListener('change',buildTimes);buildTimes();
+
+function updateTotal(){
+  let s=0;form.querySelectorAll('input[name=svc]:checked').forEach(i=>s+=+i.value);
+  document.getElementById('total').textContent='$'+s;
+}
+form.addEventListener('change',updateTotal);
+
+form.addEventListener('submit',e=>{
+  e.preventDefault();
+  const err=document.getElementById('err'),ok=document.getElementById('confirm');
+  ok.classList.remove('show');err.textContent='';
+  const svcs=[...form.querySelectorAll('input[name=svc]:checked')].map(i=>i.dataset.name);
+  const time=form.querySelector('input[name=time]:checked');
+  const name=document.getElementById('name').value.trim(),phone=document.getElementById('phone').value.trim();
+  if(!svcs.length){err.textContent='Choose at least one service.';return}
+  if(!time){err.textContent='Choose an open date and time.';return}
+  if(!name||!phone){err.textContent='Enter your name and phone number so we can confirm.';return}
+  const barber=form.querySelector('input[name=barber]:checked').value;
+  const when=new Date(dateEl.value+'T12:00').toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
+  ok.textContent='Booked, '+name+'. '+svcs.map(n=>n==='Haircut'&&pickedStyle?'Haircut ('+pickedStyle+')':n).join(' + ')+' with '+barber+' on '+when+' at '+time.value+'. See you then.';
+  ok.classList.add('show');
+});
+
+// ---------- motion ----------
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// headline: words rise in one by one
+const h1=document.querySelector('h1');
+h1.innerHTML=h1.textContent.trim().split(/\s+/).map((w,i)=>'<span class="w" style="--i:'+i+'">'+w+'</span>').join(' ');
+
+// bundle price counts up
+const bn=document.getElementById('bn');
+if(!reduce){
+  bn.textContent='0';
+  setTimeout(()=>{let st=null;requestAnimationFrame(function f(t){st=st||t;const p=Math.min((t-st)/900,1);bn.textContent=Math.round(75*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})},1300);
+}
+
+// scissors snip again on hover / tap
+const stage=document.querySelector('.stage');
+function snip(){
+  if(reduce)return;
+  document.querySelectorAll('.blade-a,.blade-b').forEach(el=>{
+    const d=el.classList.contains('blade-a')?1:-1;
+    el.animate([{transform:'rotate(0)'},{transform:'rotate('+14*d+'deg)'},{transform:'rotate(0)'},{transform:'rotate('+8*d+'deg)'},{transform:'rotate(0)'}],{duration:800,easing:'ease-in-out'});
+  });
+}
+stage.addEventListener('mouseenter',snip);
+stage.addEventListener('click',snip);
+
+// header shadow after scrolling
+const hdr=document.querySelector('header');
+addEventListener('scroll',()=>hdr.classList.toggle('scrolled',scrollY>10),{passive:true});
+
+// cart badge bump
+document.querySelectorAll('[data-add]').forEach(b=>b.addEventListener('click',()=>{
+  const c=document.getElementById('cartCount');c.classList.remove('bump');void c.offsetWidth;c.classList.add('bump');
+}));
+
+// total pulses when it changes
+const totalEl=document.getElementById('total');
+new MutationObserver(()=>{totalEl.classList.add('tick');setTimeout(()=>totalEl.classList.remove('tick'),250)}).observe(totalEl,{childList:true});
+
+// reveal on scroll, staggered within each group
+const targets=document.querySelectorAll('.head,.row,.team>div,.panel,.info,.product,.viewer,.side');
+targets.forEach(el=>{
+  el.classList.add('reveal');
+  el.style.setProperty('--d',(el.matches('.row,.team>div,.product')?[...el.parentElement.children].filter(n=>n.matches('.row,.team>div,.product')).indexOf(el)*100:0)+'ms');
+});
+if('IntersectionObserver' in window){
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+  targets.forEach(el=>io.observe(el));
+}else targets.forEach(el=>el.classList.add('in'));
+</script>
+<script>
+/* HeadGen: procedural realistic head, eyes and strand-based hair. Pure JS, returns typed arrays. */
+const HeadGen=(function(){
+'use strict';
+const PI=Math.PI,TAU=PI*2;
+const clamp=(x,a,b)=>x<a?a:x>b?b:x;
+const lerp=(a,b,t)=>a+(b-a)*t;
+const sstep=(a,b,x)=>{const t=clamp((x-a)/(b-a),0,1);return t*t*(3-2*t)};
+const vlen=a=>Math.hypot(a[0],a[1],a[2]);
+const vnorm=a=>{const l=vlen(a)||1;return[a[0]/l,a[1]/l,a[2]/l]};
+const vadd=(a,b)=>[a[0]+b[0],a[1]+b[1],a[2]+b[2]];
+const vsub=(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]];
+const vmul=(a,s)=>[a[0]*s,a[1]*s,a[2]*s];
+const vdot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+const vcross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
+const vmix=(a,b,t)=>[lerp(a[0],b[0],t),lerp(a[1],b[1],t),lerp(a[2],b[2],t)];
+const tang=(v,n)=>vnorm(vsub(v,vmul(n,vdot(v,n))));
+const UP=[0,1,0],BACK=[0,0,-1],FWD=[0,0,1];
+function rng(seed){let a=seed>>>0;return function(){a=(a+0x6D2B79F5)|0;let t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296}}
+function hash3(i,j,k){let h=(i*374761393+j*668265263+k*2147483647)|0;h=Math.imul(h^(h>>>13),1274126177);return((h^(h>>>16))>>>0)/4294967296*2-1}
+function vnoise(x,y,z){const i=Math.floor(x),j=Math.floor(y),k=Math.floor(z),fx=x-i,fy=y-j,fz=z-k;
+  const u=fx*fx*(3-2*fx),v=fy*fy*(3-2*fy),w=fz*fz*(3-2*fz);
+  const L=(a,b,t)=>a+(b-a)*t;
+  return L(L(L(hash3(i,j,k),hash3(i+1,j,k),u),L(hash3(i,j+1,k),hash3(i+1,j+1,k),u),v),
+           L(L(hash3(i,j,k+1),hash3(i+1,j,k+1),u),L(hash3(i,j+1,k+1),hash3(i+1,j+1,k+1),u),v),w)}
+function s2l(c){return c<=.04045?c/12.92:Math.pow((c+.055)/1.055,2.4)}
+function hex2lin(h){const n=parseInt(h.replace('#',''),16);return[s2l((n>>16&255)/255),s2l((n>>8&255)/255),s2l((n&255)/255)]}
+
+/* ---------- head profile ---------- */
+function spline(keys,x){
+  const n=keys.length;
+  if(x<=keys[0][0])return keys[0][1];
+  if(x>=keys[n-1][0])return keys[n-1][1];
+  let i=0;while(x>keys[i+1][0])i++;
+  const x0=keys[i][0],x1=keys[i+1][0],y0=keys[i][1],y1=keys[i+1][1];
+  const m0=i>0?(y1-keys[i-1][1])/(x1-keys[i-1][0]):(y1-y0)/(x1-x0);
+  const m1=i<n-2?(keys[i+2][1]-y0)/(keys[i+2][0]-x0):(y1-y0)/(x1-x0);
+  const h=x1-x0,t=(x-x0)/h,t2=t*t,t3=t2*t;
+  return(2*t3-3*t2+1)*y0+(t3-2*t2+t)*h*m0+(-2*t3+3*t2)*y1+(t3-t2)*h*m1;
+}
+function lin(keys,x){const n=keys.length;if(x<=keys[0][0])return keys[0][1];if(x>=keys[n-1][0])return keys[n-1][1];
+  let i=0;while(x>keys[i+1][0])i++;const t=(x-keys[i][0])/(keys[i+1][0]-keys[i][0]);return lerp(keys[i][1],keys[i+1][1],t)}
+const KW=[[-1.08,.16],[-1.0,.27],[-.9,.37],[-.7,.55],[-.45,.67],[-.2,.74],[.1,.775],[.35,.79],[.6,.74],[.8,.62],[.95,.46],[1.03,.3],[1.06,.17],[1.08,0]];
+const KZF=[[-1.08,.45],[-1.0,.62],[-.9,.78],[-.7,.84],[-.45,.87],[-.2,.88],[.1,.90],[.35,.91],[.6,.86],[.8,.72],[.95,.52],[1.03,.3],[1.06,.15],[1.08,0]];
+const KZB=[[-1.08,.25],[-.9,.42],[-.7,.65],[-.45,.85],[-.2,.95],[.1,1.0],[.35,1.0],[.6,.96],[.8,.80],[.95,.58],[1.03,.33],[1.06,.17],[1.08,0]];
+const YMIN=-1.08,YMAX=1.08,NL=540,LW=new Float32Array(NL+1),LZF=new Float32Array(NL+1),LZB=new Float32Array(NL+1);
+for(let i=0;i<=NL;i++){const y=YMIN+(YMAX-YMIN)*i/NL;LW[i]=Math.max(0,spline(KW,y));LZF[i]=Math.max(0,spline(KZF,y));LZB[i]=Math.max(0,spline(KZB,y))}
+function look(T,y){const f=clamp((y-YMIN)/(YMAX-YMIN),0,1)*NL,i=Math.min(NL-1,Math.floor(f)),t=f-i;return T[i]*(1-t)+T[i+1]*t}
+const W=y=>look(LW,y),ZF=y=>look(LZF,y),ZB=y=>look(LZB,y);
+const NEXP=2.4,EXPO=2/NEXP;
+function ringPoint(y,a){const w=W(y),zf=ZF(y),zb=ZB(y),s=Math.sin(a),c=-Math.cos(a);
+  const x=w*Math.sign(s)*Math.pow(Math.abs(s),EXPO);
+  const z=c>=0?zf*Math.pow(c,EXPO):-zb*Math.pow(-c,EXPO);return[x,y,z]}
+const frontZ0=(x,y)=>ZF(y)*Math.pow(Math.max(0,1-Math.pow(Math.abs(x)/Math.max(W(y),1e-4),NEXP)),1/NEXP);
+
+/* facial features: displacement gaussians centred on the front surface */
+const FE=[
+ {x:0,y:.12,s:[.045,.2,.1],a:.05,d:[0,.4,1]},
+ {x:0,y:-.17,s:[.065,.085,.11],a:.19,d:[0,-.1,1]},
+ {x:.1,y:-.22,s:[.04,.05,.07],a:.06,d:[.8,-.1,.6],m:1},
+ {x:.28,y:.34,s:[.17,.045,.09],a:.06,d:[0,.4,1],m:1},
+ {x:.33,y:.19,s:[.13,.085,.1],a:-.055,d:[0,0,1],m:1},
+ {x:.33,y:.285,s:[.11,.025,.06],a:.02,d:[0,.3,1],m:1},
+ {x:.53,y:-.08,s:[.15,.11,.13],a:.055,d:[.5,0,.85],m:1},
+ {x:.42,y:-.4,s:[.13,.14,.12],a:-.035,d:[0,0,1],m:1},
+ {x:0,y:-.395,s:[.14,.04,.07],a:.05,d:[0,-.1,1]},
+ {x:0,y:-.515,s:[.12,.045,.07],a:.055,d:[0,-.2,1]},
+ {x:0,y:-.455,s:[.15,.012,.06],a:-.03,d:[0,0,1]},
+ {x:.17,y:-.455,s:[.04,.04,.05],a:-.02,d:[0,0,1],m:1},
+ {x:0,y:-.88,s:[.16,.13,.12],a:.1,d:[0,-.3,1]},
+ {x:0,y:-.62,s:[.12,.03,.06],a:-.025,d:[0,0,1]},
+ {x:.62,y:.35,s:[.1,.14,.12],a:-.025,d:[1,0,.3],m:1},
+ {x:.55,y:-.62,s:[.12,.12,.1],a:.03,d:[.8,0,.3],m:1},
+ {x:.3,y:.58,s:[.2,.12,.1],a:.02,d:[0,.3,1],m:1}
+];
+const FEL=[];FE.forEach(f=>{const mk=(x,dx)=>FEL.push({c:[x,f.y,frontZ0(x,f.y)],s:f.s,a:f.a,d:vnorm([f.d[0]*dx,f.d[1],f.d[2]])});
+  mk(f.x,1);if(f.m)mk(-f.x,-1)});
+function disp(P){let dx=0,dy=0,dz=0;
+  if(P[2]<.15)return[0,0,0];
+  for(const f of FEL){const ex=(P[0]-f.c[0])/f.s[0],ey=(P[1]-f.c[1])/f.s[1],ez=(P[2]-f.c[2])/f.s[2];
+    const q=ex*ex+ey*ey+ez*ez;if(q>16)continue;const g=Math.exp(-.5*q)*f.a;dx+=f.d[0]*g;dy+=f.d[1]*g;dz+=f.d[2]*g}
+  return[dx,dy,dz]}
+function surfaceZ(x,y){const z0=frontZ0(x,y),d=disp([x,y,z0]);return z0+d[2]}
+
+/* ---------- mesh builder ---------- */
+function MB(){return{pos:[],idx:[],mult:[],lip:[],blush:[],col:[]}}
+function gauss(a,b){return Math.exp(-.5*(a*a+b*b))}
+function skinMods(P){const x=P[0],y=P[1],z=P[2],ax=Math.abs(x);let mult=1,lip=0,blush=0;
+  if(z>.3){
+    lip=Math.max(gauss(x/.16,(y+.4)/.034),gauss(x/.14,(y+.515)/.042));
+    blush=Math.max(gauss((ax-.52)/.16,(y+.15)/.14)*.55,gauss(x/.075,(y+.2)/.065)*.55);
+    mult*=1-.16*gauss((ax-.33)/.13,(y-.2)/.085);
+    mult*=1-.1*gauss((ax-.18)/.05,(y+.255)/.03); // nostrils
+  }
+  if(y<-.92)mult*=1-.18*sstep(-.92,-1.08,y);
+  mult*=1+.025*vnoise(x*6,y*6,z*6);
+  return[mult,lip,blush]}
+
+/* ---------- build the head ---------- */
+function buildHead(){
+  const NLON=160,NLAT=150,mb=MB();
+  for(let i=0;i<NLAT;i++){const v=i/(NLAT-1),y=YMAX*Math.cos(PI*v);
+    for(let j=0;j<NLON;j++){const a=j/NLON*TAU;let P=ringPoint(y,a);
+      if(i===0||i===NLAT-1)P=[0,y*0.999,0]; // closed poles
+      const d=disp(P);P=vadd(P,d);mb.pos.push(P);const m=skinMods(P);mb.mult.push(m[0]);mb.lip.push(m[1]);mb.blush.push(m[2])}}
+  const vc=NLAT*NLON;
+  for(let i=0;i<NLAT-1;i++)for(let j=0;j<NLON;j++){const a=i*NLON+j,b=i*NLON+(j+1)%NLON,c=(i+1)*NLON+j,d=(i+1)*NLON+(j+1)%NLON;
+    mb.idx.push(a,b,c,b,d,c)}
+  const headTris=mb.idx.length/3;
+  // ears
+  [-1,1].forEach(sd=>{
+    const cx=sd*(W(-.03)*.99+.01),c=[cx,-.03,-.07];ellipsoid(mb,c,[.055,.24,.14],sd*.38,.92,16,22)});
+  // neck
+  const nb=mb.pos.length,NR=14,NS=40;
+  for(let r=0;r<=NR;r++){const t=r/NR,y=lerp(-.7,-2.15,t),rx=lerp(.42,.6,t),rz=lerp(.38,.5,t),cz=lerp(-.1,-.2,t);
+    for(let k=0;k<NS;k++){const a=k/NS*TAU;const P=[rx*Math.sin(a),y,cz+rz*Math.cos(a)];mb.pos.push(P);mb.mult.push(1-.3*sstep(-.7,-1.5,y)*0+(-.12)*(1-t));mb.lip.push(0);mb.blush.push(0)}}
+  for(let r=0;r<NR;r++)for(let k=0;k<NS;k++){const a=nb+r*NS+k,b=nb+r*NS+(k+1)%NS,c=nb+(r+1)*NS+k,d=nb+(r+1)*NS+(k+1)%NS;mb.idx.push(a,c,b,b,c,d)}
+  return{mb,headTris,headVerts:vc}
+}
+function ellipsoid(mb,c,r,yaw,tilt,N,M){
+  const b=mb.pos.length,cy=Math.cos(yaw),sy=Math.sin(yaw);
+  for(let i=0;i<=M;i++){const th=i/M*PI;for(let j=0;j<N;j++){const ph=j/N*TAU;
+    let p=[r[0]*Math.sin(th)*Math.cos(ph),r[1]*Math.cos(th),r[2]*Math.sin(th)*Math.sin(ph)];
+    p=[p[0]*cy+p[2]*sy,p[1],-p[0]*sy+p[2]*cy];mb.pos.push(vadd(c,p));mb.mult.push(.94);mb.lip.push(0);mb.blush.push(.25)}}
+  for(let i=0;i<M;i++)for(let j=0;j<N;j++){const a=b+i*N+j,bb=b+i*N+(j+1)%N,cc=b+(i+1)*N+j,d=b+(i+1)*N+(j+1)%N;mb.idx.push(a,bb,cc,bb,d,cc)}
+}
+function section(mb,c,r,axis,thMax,N,M,colFn,mod){
+  const ax=vnorm(axis),ref=Math.abs(ax[1])<.9?UP:FWD,u=vnorm(vcross(ax,ref)),v=vcross(ax,u),b=mb.pos.length;
+  for(let i=0;i<=M;i++){const th=i/M*thMax;for(let j=0;j<N;j++){const ph=j/N*TAU;
+    const d=vadd(vmul(ax,Math.cos(th)),vmul(vadd(vmul(u,Math.cos(ph)),vmul(v,Math.sin(ph))),Math.sin(th)));
+    mb.pos.push(vadd(c,vmul(d,r)));
+    if(colFn)mb.col.push(...colFn(th,ph,d));else{mb.mult.push(mod||1);mb.lip.push(0);mb.blush.push(0)}}}
+  for(let i=0;i<M;i++)for(let j=0;j<N;j++){const a=b+i*N+j,bb=b+i*N+(j+1)%N,cc=b+(i+1)*N+j,d=b+(i+1)*N+(j+1)%N;mb.idx.push(a,cc,bb,bb,cc,d)}
+}
+function eyePos(sd){const x=sd*.33,y=.19,z=surfaceZ(x,y);return[x,y,z-.08]}
+
+/* eyes: sclera + iris (vertex colours) and lids (skin) */
+function buildEyes(head){
+  const eb=MB(),R=.14;
+  [-1,1].forEach(sd=>{
+    const c=eyePos(sd);
+    // sclera: whole sphere
+    section(eb,c,R,[0,0,1],PI,28,20,(th,ph,d)=>{const k=.82+.18*sstep(1.9,.8,th);return[s2l(.93)*k,s2l(.9)*k,s2l(.86)*k]});
+    // iris and pupil
+    const look=vnorm([sd*.03,0,1]);
+    section(eb,c,R*1.004,look,.52,28,10,(th,ph)=>{
+      if(th<.2)return[.004,.003,.003];
+      const t=(th-.2)/.3,limb=sstep(.82,1,t);
+      const inner=[s2l(.66)*1,s2l(.45),s2l(.2)],outer=[s2l(.32),s2l(.2),s2l(.1)];
+      const streak=.88+.12*Math.sin(ph*17);
+      const cc=[lerp(inner[0],outer[0],t)*streak,lerp(inner[1],outer[1],t)*streak,lerp(inner[2],outer[2],t)*streak];
+      return[cc[0]*(1-.75*limb),cc[1]*(1-.75*limb),cc[2]*(1-.75*limb)]});
+    // lids (skin)
+    section(head.mb,c,R*1.06,[0,Math.sin(1.0),Math.cos(1.0)],.74,32,10,null,.97);
+    section(head.mb,c,R*1.055,[0,-Math.sin(1.05),Math.cos(1.05)],.92,32,10,null,.95);
+  });
+  return eb;
+}
+
+/* ---------- normals ---------- */
+function normals(pos,idx,poleFix){
+  const n=new Float32Array(pos.length);
+  for(let t=0;t<idx.length;t+=3){const a=idx[t]*3,b=idx[t+1]*3,c=idx[t+2]*3;
+    const ux=pos[b]-pos[a],uy=pos[b+1]-pos[a+1],uz=pos[b+2]-pos[a+2],vx=pos[c]-pos[a],vy=pos[c+1]-pos[a+1],vz=pos[c+2]-pos[a+2];
+    const nx=uy*vz-uz*vy,ny=uz*vx-ux*vz,nz=ux*vy-uy*vx;
+    for(const o of[a,b,c]){n[o]+=nx;n[o+1]+=ny;n[o+2]+=nz}}
+  for(let i=0;i<n.length;i+=3){const l=Math.hypot(n[i],n[i+1],n[i+2])||1;n[i]/=l;n[i+1]/=l;n[i+2]/=l}
+  return n}
+
+/* ---------- inside test and push-out so hair never enters the skull ---------- */
+function qHead(x,y,z){
+  if(y>=YMAX||y<=YMIN)return 9;
+  const w=Math.max(W(y),.02),zz=z>=0?Math.max(ZF(y),.02):Math.max(ZB(y),.02);
+  return Math.pow(Math.abs(x)/w,NEXP)+Math.pow(Math.abs(z)/zz,NEXP)}
+function pushOut(p,lim){
+  let q=qHead(p[0],p[1],p[2]);if(q>=lim)return p;
+  const r=vnorm([p[0],(p[1]-.1)*.9,p[2]+.05]);let it=0;
+  while(q<lim&&it<60){p=[p[0]+r[0]*.015,p[1]+r[1]*.015,p[2]+r[2]*.015];q=qHead(p[0],p[1],p[2]);it++}
+  return p}
+
+const CEN=[0,.1,-.05];
+function surfR(u){let lo=.05,hi=2.4;for(let i=0;i<16;i++){const t=(lo+hi)/2;if(qHead(CEN[0]+u[0]*t,CEN[1]+u[1]*t,CEN[2]+u[2]*t)<1)lo=t;else hi=t}return(lo+hi)/2}
+function hug(p,off,lay){const d=vsub(p,CEN),dist=vlen(d)||1,u=[d[0]/dist,d[1]/dist,d[2]/dist],R0=surfR(u);
+  const tgt=R0+off;let r=dist;
+  if(lay>0)r=lerp(dist,tgt,lay);
+  if(r<R0+.014)r=R0+.014;
+  return[CEN[0]+u[0]*r,CEN[1]+u[1]*r,CEN[2]+u[2]*r]}
+function snap(p,qt){const d=vsub(p,CEN);let lo=.2,hi=1.9;
+  for(let i=0;i<14;i++){const k=(lo+hi)/2;if(qHead(CEN[0]+d[0]*k,CEN[1]+d[1]*k,CEN[2]+d[2]*k)<qt)lo=k;else hi=k}
+  const k=(lo+hi)/2;return[CEN[0]+d[0]*k,CEN[1]+d[1]*k,CEN[2]+d[2]*k]}
+/* ---------- hair styles ---------- */
+const HL=[[0,.64],[.6,.62],[.95,.48],[1.1,.1],[1.2,-.2],[1.32,-.2],[1.4,.3],[1.8,.3],[1.9,-.05],[2.4,-.4],[PI,-.65]];
+function common(P){const pa=Math.abs(Math.atan2(P[0],P[2])),th=lin(HL,pa)+.04*vnoise(P[0]*7,P[1]*3,P[2]*7);return{m:sstep(-.02,.06,P[1]-th),pa}}
+const nz=(P,f)=>[vnoise(P[0]*f,P[1]*f,P[2]*f),vnoise(P[0]*f+17,P[1]*f+3,P[2]*f+9),vnoise(P[0]*f+31,P[1]*f+11,P[2]*f+5)];
+function fadeSides(y,lo,hi,a,b){return a+(b-a)*sstep(lo,hi,y)}
+const STYLE={
+ taper(P,N,R){const c=common(P);if(c.m<=0)return null;const y=P[1];
+   const topT=sstep(.3,.72,y),sideL=fadeSides(y,-.1,.5,.04,.2),tf=sstep(-.8,.2,P[2]),topL=lerp(.42,.62,tf);
+   const sx=P[0]>-.32?1:-1,k=nz(P,5);
+   const d0t=vnorm(vadd(vmul(N,.85),[0,.35,.2*tf])),d1t=vnorm([sx*.9+k[0]*.3,-.45+k[1]*.2,-.18+k[2]*.2]);
+   const d0s=N,d1s=tang([0,-1,-.35],N);
+   return{dens:c.m*(.7+.3*sstep(-.05,.45,y)),L:lerp(sideL,topL,topT)*(.88+R()*.24),d0:vnorm(vmix(d0s,d0t,topT)),d1:vnorm(vmix(d1s,d1t,topT)),bend:1,lay:lerp(.95,.85,topT),qtip:lerp(1.05,1.3,topT),r:.0075}},
+ pompadour(P,N,R){const c=common(P);if(c.m<=0)return null;const y=P[1];
+   const topT=sstep(.3,.7,y),sideL=fadeSides(y,-.1,.45,.04,.18),tf=sstep(-.4,.85,P[2]),topL=lerp(.52,1.0,tf),k=nz(P,5);
+   const d0t=vnorm(vadd(vmul(N,.5),[0,.9,.5*tf])),d1t=vnorm([k[0]*.25,-.15+k[1]*.15,-1]);
+   return{dens:c.m,L:lerp(sideL,topL,topT)*(.9+R()*.2),d0:vnorm(vmix(N,d0t,topT)),d1:vnorm(vmix(tang([0,-1,-.3],N),d1t,topT)),bend:1.5,lay:lerp(.95,lerp(.7,.12,tf),topT),qtip:lerp(1.05,lerp(1.25,1.9,tf),topT),r:.0075}},
+ buzz(P,N,R){const c=common(P);if(c.m<=0)return null;
+   return{dens:c.m,L:(.045+.045*sstep(-.2,.7,P[1]))*(.85+R()*.3),d0:vnorm(vadd(vmul(N,.85),[0,.1,0])),d1:vnorm(vadd(vmul(N,.5),vmul(tang([0,-.3,-.7],N),.5))),bend:1,lay:.9,qtip:1.07,r:.0062}},
+ undercut(P,N,R){const c=common(P);if(c.m<=0)return null;const y=P[1];
+   const topT=sstep(.34,.42,y),sideL=fadeSides(y,-.1,.3,.035,.1),tf=sstep(-.4,.85,P[2]),topL=lerp(.55,.82,tf),k=nz(P,6);
+   const d0t=vnorm(vadd(vmul(N,.5),[0,.25,-.55])),d1t=vnorm([k[0]*.12,-.3+k[1]*.1,-1]);
+   return{dens:c.m*lerp(.75,1,topT),L:lerp(sideL,topL,topT)*(.92+R()*.16),d0:vnorm(vmix(N,d0t,topT)),d1:vnorm(vmix(tang([0,-1,-.3],N),d1t,topT)),bend:.8,lay:lerp(.95,.85,topT),qtip:lerp(1.05,1.18,topT),r:.0075}},
+ flattop(P,N,R){const c=common(P);if(c.m<=0)return null;const y=P[1];
+   const topT=sstep(.55,.85,y),sideL=fadeSides(y,-.1,.5,.04,.2),k=nz(P,6);
+   const dt=vnorm(vadd(vmul(N,.25),[k[0]*.05,.95,k[2]*.05])),Ytop=1.22,Lt=Math.min(.42,Math.max(.12,(Ytop-y)/Math.max(dt[1],.3)));
+   return{dens:c.m,L:lerp(sideL,Lt,topT)*(.97+R()*.06),d0:vnorm(vmix(N,dt,topT)),d1:vnorm(vmix(tang([0,-1,-.3],N),dt,topT)),bend:1,lay:lerp(.95,0,topT),qtip:1.05,r:.0078}},
+ crop(P,N,R){const c=common(P);if(c.m<=0)return null;const y=P[1];
+   const topT=sstep(.3,.72,y),sideL=fadeSides(y,-.1,.5,.04,.2),tf=sstep(-.2,.8,P[2]),k=nz(P,7),k2=nz(P,3);
+   const topL=lerp(.3,.5,tf)*(.65+R()*.7);
+   const d0t=vnorm(vadd(vmul(N,.7),[k[1]*.4,.4,k[2]*.4])),
+         d1t=vnorm(vadd(vmix([k2[0]*1.4,-.2,-.3+k2[2]*.8],[k2[0]*.9,-.5,.85],tf),[(R()-.5)*.5,(R()-.5)*.3,(R()-.5)*.3]));
+   return{dens:c.m,L:lerp(sideL,topL,topT)*(.85+R()*.3),d0:vnorm(vmix(N,d0t,topT)),d1:vnorm(vmix(tang([0,-1,-.3],N),d1t,topT)),bend:1.2,lay:lerp(.95,.7,topT),qtip:lerp(1.05,1.3,topT),r:.0075}}
+};
+function beardAt(P,N,R){
+  const x=P[0],y=P[1],z=P[2],ax=Math.abs(x);if(z<-.05||y<-1.04)return null;
+  const top=-.3+.3*sstep(.15,.78,ax),m1=sstep(0,.06,top-y),dl=Math.hypot(ax/.3,(y+.46)/.095),m2=sstep(1,1.5,dl),m3=sstep(.9,.78,ax);
+  const dens=m1*m2*m3;if(dens<=0)return null;
+  const L=lerp(.09,.26,sstep(-.5,-1,y)*(1-sstep(.15,.6,ax)))*(.85+R()*.3),k=nz(P,6);
+  return{dens,L,d0:vnorm(vadd(vmul(N,.8),[0,-.2,0])),d1:vnorm([k[0]*.2-x*.15,-1,.25+k[2]*.2]),bend:1.1,lay:.85,qtip:1.08,r:.0058}}
+
+/* ---------- strand geometry ---------- */
+function buildStrands(headBuild,fn,count,seed,opt){
+  opt=opt||{};const R=rng(seed),{mb,headTris}=headBuild,pos=mb.pos,nrm=headBuild.nrm;
+  // area-weighted triangle table, only where the style has hair
+  const tri=[],cum=[];let tot=0;
+  for(let t=0;t<headTris;t++){const a=mb.idx[t*3],b=mb.idx[t*3+1],c=mb.idx[t*3+2];
+    const cen=[(pos[a][0]+pos[b][0]+pos[c][0])/3,(pos[a][1]+pos[b][1]+pos[c][1])/3,(pos[a][2]+pos[b][2]+pos[c][2])/3];
+    const cn=vnorm([nrm[a*3]+nrm[b*3]+nrm[c*3],nrm[a*3+1]+nrm[b*3+1]+nrm[c*3+1],nrm[a*3+2]+nrm[b*3+2]+nrm[c*3+2]]);
+    const s=fn(cen,cn,()=>.5);if(!s||s.dens<=.02)continue;
+    const ar=vlen(vcross(vsub(pos[b],pos[a]),vsub(pos[c],pos[a])))*.5;
+    if(ar<=0)continue;tot+=ar*(1+2.5*(1-sstep(.05,.22,s.L)));tri.push([a,b,c]);cum.push(tot)}
+  const S=[];let verts=0,segs=0;
+  let tries=0;
+  while(S.length<count&&tries<count*4){tries++;
+    const f=R()*tot;let lo=0,hi=cum.length-1;while(lo<hi){const m=(lo+hi)>>1;if(cum[m]<f)lo=m+1;else hi=m}
+    const [a,b,c]=tri[lo];let u=R(),v=R();if(u+v>1){u=1-u;v=1-v}const w=1-u-v;
+    const P=[pos[a][0]*w+pos[b][0]*u+pos[c][0]*v,pos[a][1]*w+pos[b][1]*u+pos[c][1]*v,pos[a][2]*w+pos[b][2]*u+pos[c][2]*v];
+    const N=vnorm([nrm[a*3]*w+nrm[b*3]*u+nrm[c*3]*v,nrm[a*3+1]*w+nrm[b*3+1]*u+nrm[c*3+1]*v,nrm[a*3+2]*w+nrm[b*3+2]*u+nrm[c*3+2]*v]);
+    const s=fn(P,N,R);if(!s||R()>s.dens)continue;
+    const nseg=clamp(Math.round(s.L/.075)+2,3,9);
+    const path=[],p0=vadd(P,vmul(N,.007));path.push(p0);let p=p0;
+    const ph=R()*TAU,wob=(.004+.01*R()),step=s.L/nseg,jit=[(R()-.5)*.14,(R()-.5)*.14,(R()-.5)*.14];
+    for(let i=1;i<=nseg;i++){const t=i/nseg,e=Math.pow(t,s.bend||1);
+      let d=vnorm(vmix(s.d0,vadd(s.d1,jit),e));
+      p=vadd(p,vmul(d,step));
+      const wv=Math.sin(ph+t*5)*wob*t;p=[p[0]+wv*s.d0[2],p[1],p[2]-wv*s.d0[0]];
+      p=hug(p,lerp(.014,((s.qtip||1.03)-1)*.45,t),s.lay||0);path.push(p)}
+    S.push({path,r:s.r*(.85+R()*.35)*(s.L<.12?.75:1),shade:.82+R()*.32});verts+=(nseg+1)*3;segs+=nseg}
+  // pack
+  const P=new Float32Array(verts*3),N=new Float32Array(verts*3),SH=new Float32Array(verts),I=new Uint32Array(segs*18);
+  let vo=0,io=0;
+  for(const st of S){const n=st.path.length;
+    for(let i=0;i<n;i++){
+      const a=st.path[Math.max(0,i-1)],b=st.path[Math.min(n-1,i+1)];let t=vnorm(vsub(b,a));
+      const ref=Math.abs(t[1])<.9?UP:FWD,u=vnorm(vcross(t,ref)),v=vcross(t,u);
+      const rad=st.r*(1-.7*i/(n-1));
+      for(let k=0;k<3;k++){const an=k/3*TAU,cx=Math.cos(an),sy=Math.sin(an);
+        const nn=[u[0]*cx+v[0]*sy,u[1]*cx+v[1]*sy,u[2]*cx+v[2]*sy];
+        P[vo*3]=st.path[i][0]+nn[0]*rad;P[vo*3+1]=st.path[i][1]+nn[1]*rad;P[vo*3+2]=st.path[i][2]+nn[2]*rad;
+        N[vo*3]=nn[0];N[vo*3+1]=nn[1];N[vo*3+2]=nn[2];
+        SH[vo]=st.shade*(.58+.5*(i/(n-1)));vo++}}
+    const base=vo-n*3;
+    for(let i=0;i<n-1;i++)for(let k=0;k<3;k++){const a=base+i*3+k,b=base+i*3+(k+1)%3,c=base+(i+1)*3+k,d=base+(i+1)*3+(k+1)%3;
+      I[io++]=a;I[io++]=b;I[io++]=c;I[io++]=b;I[io++]=d;I[io++]=c}}
+  return{pos:P,nor:N,shade:SH,idx:I,count:S.length}
+}
+function eyebrows(headBuild,seed){
+  const R=rng(seed),S=[];
+  [-1,1].forEach(sd=>{for(let n=0;n<190;n++){
+    const t=R(),x=sd*(.13+.4*t),yb=.36+.055*Math.sin(Math.PI*Math.min(1,t*1.05))-.02*t*t,y=yb+(R()-.5)*(.045-.02*t);
+    const z=surfaceZ(x,y)+.004,N=vnorm([sd*.1,.35,1]);
+    const d0=vnorm([sd*(.1+.5*t),.65-.4*t,.5]),d1=vnorm([sd*(.4+.7*t),.3-.5*t,.35]);
+    const path=[[x,y,z]];let p=path[0];const L=.065+.03*R();
+    for(let i=1;i<=3;i++){p=vadd(p,vmul(vnorm(vmix(d0,d1,i/3)),L/3));path.push(p)}
+    S.push({path,r:.0042,shade:.8+R()*.3})}});
+  return packStrands(S)
+}
+function packStrands(S){
+  let verts=0,segs=0;S.forEach(s=>{verts+=s.path.length*3;segs+=s.path.length-1});
+  const P=new Float32Array(verts*3),N=new Float32Array(verts*3),SH=new Float32Array(verts),I=new Uint32Array(segs*18);let vo=0,io=0;
+  for(const st of S){const n=st.path.length;
+    for(let i=0;i<n;i++){const a=st.path[Math.max(0,i-1)],b=st.path[Math.min(n-1,i+1)];const t=vnorm(vsub(b,a));
+      const ref=Math.abs(t[1])<.9?UP:FWD,u=vnorm(vcross(t,ref)),v=vcross(t,u),rad=st.r*(1-.6*i/(n-1));
+      for(let k=0;k<3;k++){const an=k/3*TAU,cx=Math.cos(an),sy=Math.sin(an),nn=[u[0]*cx+v[0]*sy,u[1]*cx+v[1]*sy,u[2]*cx+v[2]*sy];
+        P[vo*3]=st.path[i][0]+nn[0]*rad;P[vo*3+1]=st.path[i][1]+nn[1]*rad;P[vo*3+2]=st.path[i][2]+nn[2]*rad;
+        N[vo*3]=nn[0];N[vo*3+1]=nn[1];N[vo*3+2]=nn[2];SH[vo]=st.shade*(.65+.45*(i/(n-1)));vo++}}
+    const base=vo-n*3;
+    for(let i=0;i<n-1;i++)for(let k=0;k<3;k++){const a=base+i*3+k,b=base+i*3+(k+1)%3,c=base+(i+1)*3+k,d=base+(i+1)*3+(k+1)%3;
+      I[io++]=a;I[io++]=b;I[io++]=c;I[io++]=b;I[io++]=d;I[io++]=c}}
+  return{pos:P,nor:N,shade:SH,idx:I,count:S.length}}
+
+/* ---------- caps: scalp / stubble overlay with soft coverage ---------- */
+function buildCap(headBuild,fn){
+  const {mb,headTris,headVerts}=headBuild,pos=mb.pos,nrm=headBuild.nrm,cov=new Float32Array(headVerts);
+  for(let i=0;i<headVerts;i++){const P=pos[i],N=[nrm[i*3],nrm[i*3+1],nrm[i*3+2]],s=fn(P,N,()=>.5);
+    cov[i]=s?s.dens*(.62+.38*sstep(.03,.2,s.L)):0}
+  const idx=[];
+  for(let t=0;t<headTris;t++){const a=mb.idx[t*3],b=mb.idx[t*3+1],c=mb.idx[t*3+2];
+    if(Math.max(cov[a],cov[b],cov[c])>.03)idx.push(a,b,c)}
+  const P=new Float32Array(headVerts*3);
+  for(let i=0;i<headVerts;i++){const o=.003+.006*cov[i];P[i*3]=pos[i][0]+nrm[i*3]*o;P[i*3+1]=pos[i][1]+nrm[i*3+1]*o;P[i*3+2]=pos[i][2]+nrm[i*3+2]*o}
+  return{pos:P,nor:headBuild.nrm.slice(0,headVerts*3),idx:new Uint32Array(idx),cov}}
+
+/* ---------- colours ---------- */
+function skinColors(mb,skinHex,out){
+  const s=hex2lin(skinHex),n=mb.mult.length;out=out||new Float32Array(n*3);
+  for(let i=0;i<n;i++){const m=mb.mult[i],bl=mb.blush[i],lp=mb.lip[i];
+    let r=s[0]*m,g=s[1]*m,b=s[2]*m;
+    r=lerp(r,s[0]*m*1.0,bl*.5);g=lerp(g,s[1]*m*.74,bl*.5);b=lerp(b,s[2]*m*.76,bl*.5);
+    r=lerp(r,s[0]*.88+.02,lp*.85);g=lerp(g,s[1]*.42,lp*.85);b=lerp(b,s[2]*.45,lp*.85);
+    out[i*3]=r;out[i*3+1]=g;out[i*3+2]=b}
+  return out}
+function strandColors(shade,hairHex,out){const h=hex2lin(hairHex),n=shade.length;out=out||new Float32Array(n*3);
+  for(let i=0;i<n;i++){const s=shade[i];out[i*3]=h[0]*s;out[i*3+1]=h[1]*s;out[i*3+2]=h[2]*s}return out}
+function capColors(cap,skinCols,hairHex,out){const h=hex2lin(hairHex),n=cap.cov.length;out=out||new Float32Array(n*3);
+  for(let i=0;i<n;i++){const c=cap.cov[i];for(let k=0;k<3;k++)out[i*3+k]=lerp(skinCols[i*3+k],h[k]*.42,Math.min(1,c))}
+  return out}
+
+function init(){
+  const head=buildHead();head.nrm=normals([].concat(...head.mb.pos),head.mb.idx);
+  // fix poles
+  const NLON=160,NLAT=150;for(let j=0;j<NLON;j++){const t=j*3,b=((NLAT-1)*NLON+j)*3;head.nrm[t]=0;head.nrm[t+1]=1;head.nrm[t+2]=0;head.nrm[b]=0;head.nrm[b+1]=-1;head.nrm[b+2]=0}
+  const eyes=buildEyes(head);
+  // normals must be recomputed after lids are added
+  head.nrm=normals([].concat(...head.mb.pos),head.mb.idx);
+  for(let j=0;j<NLON;j++){const t=j*3,b=((NLAT-1)*NLON+j)*3;head.nrm[t]=0;head.nrm[t+1]=1;head.nrm[t+2]=0;head.nrm[b]=0;head.nrm[b+1]=-1;head.nrm[b+2]=0}
+  eyes.nrm=normals([].concat(...eyes.pos),eyes.idx);
+  head.skin={pos:Float32Array.from([].concat(...head.mb.pos)),nor:head.nrm,idx:Uint32Array.from(head.mb.idx)};
+  eyes.skin={pos:Float32Array.from([].concat(...eyes.pos)),nor:eyes.nrm,idx:Uint32Array.from(eyes.idx),col:Float32Array.from(eyes.col)};
+  return{head,eyes}}
+
+const hairStyleIds=Object.keys(STYLE);
+return{init,eyePos,STYLE,snap,beardAt,buildStrands,buildCap,eyebrows,skinColors,strandColors,capColors,hex2lin,hairStyleIds,surfaceZ};
+})();
+
+
+</script>
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const STYLES=[
+  {id:'taper',name:'Classic taper',tag:'Short sides, side part',time:'About 45 min',desc:'Sides fade gently into a neat, side-parted top. Easy to wear to the office or a wedding.'},
+  {id:'pompadour',name:'Pompadour',tag:'Tall swept-up top',time:'About 50 min',desc:'Sides cut close, top left long and swept up and back with volume at the front. Needs a little styling product.'},
+  {id:'buzz',name:'Buzz cut',tag:'One short length',time:'About 25 min',desc:'One even length all over with clippers. Quick, clean, and almost no upkeep.'},
+  {id:'undercut',name:'Slick undercut',tag:'Short sides, combed back',time:'About 45 min',desc:'Very short sides with a longer top combed straight back. A sharp contrast that suits thick hair.'},
+  {id:'flattop',name:'Flat top',tag:'Level top, tight sides',time:'About 40 min',desc:'Top cut level and the sides tapered tight. Works best on thick, straight hair.'},
+  {id:'crop',name:'Textured crop',tag:'Choppy top, short fringe',time:'About 40 min',desc:'Short and choppy on top with a forward fringe and tapered sides. Low effort with plenty of shape.'}
+];
+const HAIR=[['Black','#26201b'],['Brown','#4b2f1e'],['Blonde','#c9a15a'],['Silver','#b4b2b0']];
+const SKIN=[['Light','#f1c9a8'],['Medium','#cf9467'],['Deep','#80513a']];
+const COUNT={taper:12000,pompadour:12000,buzz:16000,undercut:12000,flattop:12000,crop:12000};
+const state={i:0,hair:HAIR[0][1],skin:SKIN[0][1],beard:false};
+const api={build(){},paint(){},beard(){}};
+
+/* ---- UI ---- */
+const list=$('stylelist');
+STYLES.forEach((s,i)=>{
+  const b=document.createElement('button');b.type='button';b.className='stylebtn';
+  b.innerHTML='<strong>'+s.name+'</strong><small>'+s.tag+'</small>';
+  b.addEventListener('click',()=>{state.i=i;sync(true);api.build()});
+  list.appendChild(b);
+});
+function swatches(el,arr,key){
+  arr.forEach(([n,c])=>{
+    const b=document.createElement('button');b.type='button';b.className='sw';b.style.background=c;b.dataset.c=c;
+    b.setAttribute('aria-label',n);b.title=n;
+    b.addEventListener('click',()=>{state[key]=c;sync();api.paint()});
+    el.appendChild(b);
+  });
+}
+swatches($('hairSw'),HAIR,'hair');swatches($('skinSw'),SKIN,'skin');
+function sync(swap){
+  const s=STYLES[state.i];
+  [...list.children].forEach((b,i)=>b.setAttribute('aria-pressed',i===state.i));
+  document.querySelectorAll('#hairSw .sw').forEach(b=>b.setAttribute('aria-pressed',b.dataset.c===state.hair));
+  document.querySelectorAll('#skinSw .sw').forEach(b=>b.setAttribute('aria-pressed',b.dataset.c===state.skin));
+  $('dName').textContent=s.name;$('dDesc').textContent=s.desc;$('dTime').textContent=s.time;
+  if(swap){const d=$('detail');d.classList.remove('swap');void d.offsetWidth;d.classList.add('swap')}
+}
+sync();
+$('beard').addEventListener('change',e=>{state.beard=e.target.checked;api.beard()});
+
+/* ---- book this style ---- */
+$('bookStyle').addEventListener('click',()=>{
+  pickedStyle=STYLES[state.i].name;
+  const f=$('bookingForm');
+  const tick=n=>{const cb=f.querySelector('input[name=svc][data-name="'+n+'"]');if(cb&&!cb.checked){cb.checked=true;cb.dispatchEvent(new Event('change',{bubbles:true}))}};
+  tick('Haircut');if(state.beard)tick('Beard trim');
+  const note=$('styleNote');note.querySelector('span').textContent='Style: '+pickedStyle;note.hidden=false;
+});
+$('clearStyle').addEventListener('click',()=>{pickedStyle=null;$('styleNote').hidden=true});
+
+/* ---- 3D ---- */
+function init3D(){
+  if(typeof THREE==='undefined')throw new Error('three.js missing');
+  const canvas=$('c3d'),viewer=canvas.parentElement;
+  const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+  renderer.outputEncoding=THREE.sRGBEncoding;
+  renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.0;
+  renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+  const scene=new THREE.Scene();
+  const camera=new THREE.PerspectiveCamera(32,1,.1,60);
+  camera.position.set(0,-.25,9);camera.lookAt(0,-.5,0);
+
+  // lights
+  scene.add(new THREE.HemisphereLight(0xfff3e8,0x8a6a55,.45));
+  const key=new THREE.DirectionalLight(0xfff1e0,1.7);key.position.set(3.5,5,6);key.castShadow=true;
+  key.shadow.mapSize.set(2048,2048);
+  const sc=key.shadow.camera;sc.left=-3;sc.right=3;sc.top=3.4;sc.bottom=-3;sc.near=1;sc.far=20;sc.updateProjectionMatrix();
+  key.shadow.bias=-.0004;key.shadow.normalBias=.02;scene.add(key);
+  const rim=new THREE.DirectionalLight(0xF47B10,1.0);rim.position.set(-5,3,-4);scene.add(rim);
+  const fill=new THREE.DirectionalLight(0xdbe6ff,.35);fill.position.set(-4,0,5);scene.add(fill);
+
+  // soft studio environment for realistic reflections on skin and hair
+  try{
+    const es=new THREE.Scene(),sg=new THREE.SphereGeometry(10,32,16),pa=sg.attributes.position,cols=[];
+    for(let i=0;i<pa.count;i++){const t=(pa.getY(i)/10+1)/2;cols.push(.22+.7*t,.18+.66*t,.15+.6*t)}
+    sg.setAttribute('color',new THREE.Float32BufferAttribute(cols,3));
+    es.add(new THREE.Mesh(sg,new THREE.MeshBasicMaterial({side:THREE.BackSide,vertexColors:true})));
+    const panel=(w,h,pos,v)=>{const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({color:new THREE.Color(v,v,v),side:THREE.DoubleSide}));m.position.set(pos[0],pos[1],pos[2]);m.lookAt(0,0,0);es.add(m)};
+    panel(6,8,[-7,2,5],4);panel(4,6,[7,3,4],2.5);panel(8,3,[0,8,2],3);
+    const pm=new THREE.PMREMGenerator(renderer);scene.environment=pm.fromScene(es,.03).texture;pm.dispose();
+  }catch(e){console.warn('env map skipped',e)}
+
+  const geo=(pos,nor,idx,col)=>{const g=new THREE.BufferGeometry();
+    g.setAttribute('position',new THREE.BufferAttribute(pos,3));g.setAttribute('normal',new THREE.BufferAttribute(nor,3));
+    if(col)g.setAttribute('color',new THREE.BufferAttribute(col,3));g.setIndex(new THREE.BufferAttribute(idx,1));return g};
+  const put=(g,m,parent)=>{const o=new THREE.Mesh(g,m);o.castShadow=true;o.receiveShadow=true;(parent||rig).add(o);return o};
+  const rig=new THREE.Group();scene.add(rig);
+
+  // body: barber cape with orange collar
+  const lin=h=>new THREE.Color(h).convertSRGBToLinear();
+  const capeMat=new THREE.MeshStandardMaterial({color:lin('#1c1c1c'),roughness:.85});
+  const cape=put(new THREE.SphereGeometry(1,48,28),capeMat);cape.scale.set(2.2,1.25,1.2);cape.position.y=-3.15;
+  const collar=put(new THREE.TorusGeometry(.68,.1,16,48),new THREE.MeshStandardMaterial({color:lin('#F47B10'),roughness:.55}));
+  collar.rotation.x=Math.PI/2;collar.position.y=-1.98;
+
+  // head, ears, neck, eyelids
+  const head=HeadGen.init();
+  const skinCols=HeadGen.skinColors(head.head.mb,state.skin);
+  const skinGeo=geo(head.head.skin.pos,head.head.skin.nor,head.head.skin.idx,skinCols);
+  put(skinGeo,new THREE.MeshStandardMaterial({vertexColors:true,roughness:.55,metalness:0,envMapIntensity:.65}));
+  // eyes
+  const E=head.eyes.skin;
+  put(geo(E.pos,E.nor,E.idx,E.col),new THREE.MeshStandardMaterial({vertexColors:true,roughness:.22,envMapIntensity:1}));
+  const corneaMat=new THREE.MeshStandardMaterial({color:0xffffff,roughness:.03,transparent:true,opacity:.16,depthWrite:false,envMapIntensity:1.4});
+  [-1,1].forEach(sd=>{const g=new THREE.SphereGeometry(.14*1.012,32,16,0,Math.PI*2,0,.75);g.rotateX(Math.PI/2);
+    const m=new THREE.Mesh(g,corneaMat);const c=HeadGen.eyePos(sd);m.position.set(c[0],c[1],c[2]);rig.add(m)});
+
+  // hair groups
+  const hairMat=new THREE.MeshStandardMaterial({vertexColors:true,roughness:.4,metalness:.1,envMapIntensity:1.1,side:THREE.DoubleSide});
+  const capMat=new THREE.MeshStandardMaterial({vertexColors:true,roughness:.85,polygonOffset:true,polygonOffsetFactor:-1,polygonOffsetUnits:-1});
+  const hairG=new THREE.Group();rig.add(hairG);
+  let ver=0;
+  function make(fn,count,seed){
+    const cap=HeadGen.buildCap(head.head,fn),st=HeadGen.buildStrands(head.head,fn,count,seed);
+    const e={cap,st,ver:-1,capCols:new Float32Array(cap.cov.length*3),stCols:new Float32Array(st.shade.length*3)};
+    e.capGeo=geo(cap.pos,cap.nor,cap.idx,e.capCols);e.stGeo=geo(st.pos,st.nor,st.idx,e.stCols);return e}
+  function refresh(e){if(e.ver===ver)return;
+    HeadGen.capColors(e.cap,skinCols,state.hair,e.capCols);HeadGen.strandColors(e.st.shade,state.hair,e.stCols);
+    e.capGeo.attributes.color.needsUpdate=true;e.stGeo.attributes.color.needsUpdate=true;e.ver=ver}
+  const cache={};
+  const capMesh=put(geo(new Float32Array(9),new Float32Array(9),new Uint32Array([0,1,2]),new Float32Array(9)),capMat,hairG);
+  const hairMesh=put(geo(new Float32Array(9),new Float32Array(9),new Uint32Array([0,1,2]),new Float32Array(9)),hairMat,hairG);
+  // eyebrows
+  const br=HeadGen.eyebrows(head.head,3),brCols=new Float32Array(br.shade.length*3);
+  const brGeo=geo(br.pos,br.nor,br.idx,brCols);put(brGeo,hairMat,rig);
+  // beard
+  let beardE=null;const beardCap=put(geo(new Float32Array(9),new Float32Array(9),new Uint32Array([0,1,2]),new Float32Array(9)),capMat,rig),
+      beardHair=put(geo(new Float32Array(9),new Float32Array(9),new Uint32Array([0,1,2]),new Float32Array(9)),hairMat,rig);
+  beardCap.visible=beardHair.visible=false;
+
+  let popT=1;
+  function showStyle(){const id=STYLES[state.i].id;const e=cache[id]||(cache[id]=make(HeadGen.STYLE[id],COUNT[id],7));
+    refresh(e);capMesh.geometry=e.capGeo;hairMesh.geometry=e.stGeo;if(!rm)popT=0}
+  function paint(){
+    ver++;HeadGen.skinColors(head.head.mb,state.skin,skinCols);skinGeo.attributes.color.needsUpdate=true;
+    const e=cache[STYLES[state.i].id];if(e)refresh(e);
+    HeadGen.strandColors(br.shade,state.hair,brCols);brGeo.attributes.color.needsUpdate=true;
+    if(beardE)refresh(beardE)}
+  function busy(fn){viewer.classList.add('busy');setTimeout(()=>{try{fn()}finally{viewer.classList.remove('busy')}},30)}
+  api.build=()=>busy(showStyle);
+  api.paint=paint;
+  api.beard=()=>{
+    if(state.beard&&!beardE){busy(()=>{beardE=make(HeadGen.beardAt,9000,11);refresh(beardE);beardCap.geometry=beardE.capGeo;beardHair.geometry=beardE.stGeo;beardCap.visible=beardHair.visible=true});return}
+    beardCap.visible=beardHair.visible=state.beard&&!!beardE};
+  paint();showStyle();
+
+  // interaction
+  let rotY=.5,tY=.5,rotX=0,tX=0,auto=!rm,dragging=false,lx=0,ly=0,visible=true;
+  const autoBtn=$('autoBtn');autoBtn.setAttribute('aria-pressed',auto);
+  autoBtn.addEventListener('click',()=>{auto=!auto;autoBtn.setAttribute('aria-pressed',auto)});
+  document.querySelectorAll('.views [data-a]').forEach(b=>b.addEventListener('click',()=>{
+    const a=+b.dataset.a,T=Math.PI*2;
+    tY=Math.round((tY-a)/T)*T+a;tX=0;auto=false;autoBtn.setAttribute('aria-pressed',false);
+  }));
+  canvas.addEventListener('pointerdown',e=>{dragging=true;lx=e.clientX;ly=e.clientY;canvas.setPointerCapture(e.pointerId)});
+  canvas.addEventListener('pointermove',e=>{if(!dragging)return;
+    tY+=(e.clientX-lx)*.012;tX=Math.max(-.4,Math.min(.4,tX+(e.clientY-ly)*.005));lx=e.clientX;ly=e.clientY});
+  const end=()=>{dragging=false};
+  canvas.addEventListener('pointerup',end);canvas.addEventListener('pointercancel',end);
+  canvas.addEventListener('keydown',e=>{
+    if(e.key==='ArrowLeft'){tY-=.4;e.preventDefault()}
+    if(e.key==='ArrowRight'){tY+=.4;e.preventDefault()}
+  });
+  function resize(){const w=viewer.clientWidth,h=viewer.clientHeight;if(!w||!h)return;
+    renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()}
+  new ResizeObserver(resize).observe(viewer);resize();
+  new IntersectionObserver(es=>{visible=es[0].isIntersecting}).observe(viewer);
+
+  const back=t=>{const c=1.70158,c3=c+1;return 1+c3*Math.pow(t-1,3)+c*Math.pow(t-1,2)};
+  let last=performance.now();
+  (function frame(now){
+    requestAnimationFrame(frame);
+    const dt=Math.min((now-last)/1000,.05);last=now;
+    if(!visible)return;
+    if(auto&&!dragging)tY+=dt*.5;
+    rotY+=(tY-rotY)*Math.min(1,dt*8);rotX+=(tX-rotX)*Math.min(1,dt*8);
+    rig.rotation.y=rotY;rig.rotation.x=rotX;
+    if(popT<1){popT=Math.min(1,popT+dt/.5);hairG.scale.setScalar(.94+.06*back(popT))}else hairG.scale.setScalar(1);
+    renderer.render(scene,camera);
+  })(performance.now());
+}
+try{init3D()}catch(e){$('fb').hidden=false;console.warn(e)}
+})();
+</script>
+
+</body>
+</html>
