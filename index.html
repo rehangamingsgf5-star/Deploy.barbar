@@ -258,6 +258,25 @@ header.scrolled{box-shadow:0 6px 24px rgba(60,30,0,.08)}
 .sw{width:34px;height:34px;border-radius:50%;border:3px solid var(--cream);box-shadow:0 0 0 1.5px var(--sand);transition:box-shadow .2s,transform .2s}
 .sw:hover{transform:scale(1.1)}
 .sw[aria-pressed=true]{box-shadow:0 0 0 2.5px var(--ink)}
+.gbtn{min-width:46px;height:38px;padding:0 12px;border-radius:10px;border:1.5px solid var(--sand);background:#fff;font-weight:700;font-size:15px;transition:background .2s,border-color .2s,color .2s}
+.gbtn:hover{border-color:var(--ink)}
+.gbtn[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:#fff}
+.zones{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.zp{position:absolute;left:0;top:0;min-width:28px;height:22px;padding:0 8px;border-radius:12px;background:var(--orange);color:#fff;font-size:12px;font-weight:800;display:grid;place-items:center;border:2px solid #fff;box-shadow:0 3px 10px rgba(0,0,0,.28);opacity:0;will-change:transform,opacity}
+.zp.top{background:#151515}
+@media(max-width:640px){.zp{min-width:22px;height:18px;padding:0 5px;font-size:10px;border-width:1.5px}}
+.vcol{min-width:0}
+.guide{display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px;margin-top:14px;background:var(--ink);color:#fff;border-radius:18px;padding:14px 18px}
+.guide h4{flex:1 1 100%;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#cfc7c1;font-weight:700;display:flex;align-items:center;gap:10px}
+.guide .gnote{font-size:13px;font-weight:700;color:var(--orange);letter-spacing:0;text-transform:none}
+.gtop{display:flex;align-items:center;gap:8px;font-size:13px;color:#e8e1db}
+.gtop span{display:block;width:34px;height:10px;border-radius:6px;background:#8a5a3a}
+.gtop small{font-size:13px;color:#e8e1db}
+.gr{display:flex;align-items:center;gap:8px}
+.gr b{font-size:14px}
+.gr i{display:block;height:8px;border-radius:5px;background:linear-gradient(90deg,var(--orange),#f9a15a);transition:width .4s cubic-bezier(.2,.7,.2,1)}
+.gr small{font-size:12px;color:#bdb4ad}
+@media(max-width:640px){.guide{gap:8px 16px;padding:12px 14px;border-radius:16px}.gr i{max-width:56px}}
 .stylenote{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--peach);border-radius:12px;padding:12px 16px;margin:-8px 0 24px;font-weight:600;font-size:15px}
 .stylenote[hidden]{display:none}
 .stylenote button{font-size:14px;text-decoration:underline;text-underline-offset:3px;color:#6a3d17}
@@ -452,13 +471,15 @@ header.scrolled{box-shadow:0 6px 24px rgba(60,30,0,.08)}
     <div class="wrap">
       <div class="head">
         <h2 class="big">Pick a style and see it from every side</h2>
-        <p>Spin the 3D model, try hair and skin colours, add a beard, then book the cut you like.</p>
+        <p>Spin the 3D model, try hair and skin colours, add a beard, or see how a clipper guard from #0 to #3 looks all over. Then book the cut you like.</p>
       </div>
       <div class="studio">
+        <div class="vcol">
         <div class="viewer">
           <canvas id="c3d" tabindex="0" role="img" aria-label="3D model showing the selected haircut. Drag to rotate, or use the left and right arrow keys."></canvas>
           <div class="fallback" id="fb" hidden>The 3D view could not load. Check your connection and refresh the page.</div>
           <span class="hint">Drag to rotate</span>
+          <div class="zones" id="zones" aria-hidden="true"></div>
           <div class="views" role="group" aria-label="Camera view">
             <button type="button" data-a="0">Front</button>
             <button type="button" data-a="1.5708">Side</button>
@@ -466,6 +487,8 @@ header.scrolled{box-shadow:0 6px 24px rgba(60,30,0,.08)}
             <span class="sep"></span>
             <button type="button" id="autoBtn" aria-pressed="true">Auto-rotate</button>
           </div>
+        </div>
+        <div class="guide" id="guide" aria-live="polite"></div>
         </div>
         <div class="side">
           <div class="stylelist" id="stylelist" role="group" aria-label="Haircut styles"></div>
@@ -477,6 +500,7 @@ header.scrolled{box-shadow:0 6px 24px rgba(60,30,0,.08)}
           <div class="ctrl">
             <div><span class="cl">Hair colour</span><div class="swatches" id="hairSw" role="group" aria-label="Hair colour"></div></div>
             <div><span class="cl">Skin tone</span><div class="swatches" id="skinSw" role="group" aria-label="Skin tone"></div></div>
+            <div><span class="cl">Clipper guard</span><div class="swatches" id="guardSw" role="group" aria-label="Clipper guard, all over"></div></div>
             <div><span class="cl">Beard</span><label class="opt"><input type="checkbox" id="beard"><span>Show beard</span></label></div>
           </div>
           <a class="btn" id="bookStyle" href="#book">Book this style</a>
@@ -861,43 +885,56 @@ function hug(p,off,lay){const d=vsub(p,CEN),dist=vlen(d)||1,u=[d[0]/dist,d[1]/di
   const tgt=R0+off;let r=dist;
   if(lay>0)r=lerp(dist,tgt,lay);
   if(r<R0+.014)r=R0+.014;
-  return[CEN[0]+u[0]*r,CEN[1]+u[1]*r,CEN[2]+u[2]*r]}
+  const q=[CEN[0]+u[0]*r,CEN[1]+u[1]*r,CEN[2]+u[2]*r];q.o=r-R0;return q}
 function snap(p,qt){const d=vsub(p,CEN);let lo=.2,hi=1.9;
   for(let i=0;i<14;i++){const k=(lo+hi)/2;if(qHead(CEN[0]+d[0]*k,CEN[1]+d[1]*k,CEN[2]+d[2]*k)<qt)lo=k;else hi=k}
   const k=(lo+hi)/2;return[CEN[0]+d[0]*k,CEN[1]+d[1]*k,CEN[2]+d[2]*k]}
 /* ---------- hair styles ---------- */
-const HL=[[0,.64],[.6,.62],[.95,.48],[1.1,.1],[1.2,-.2],[1.32,-.2],[1.4,.3],[1.8,.3],[1.9,-.05],[2.4,-.4],[PI,-.65]];
-function common(P){const pa=Math.abs(Math.atan2(P[0],P[2])),th=lin(HL,pa)+.04*vnoise(P[0]*7,P[1]*3,P[2]*7);return{m:sstep(-.02,.06,P[1]-th),pa}}
+const HL=[[0,.6],[.6,.58],[.95,.46],[1.1,.1],[1.2,-.2],[1.32,-.2],[1.4,.3],[1.8,.3],[1.9,-.05],[2.4,-.4],[PI,-.65]];
+const HLW=[[0,.6],[.6,.58],[.95,.46],[1.1,.1],[1.2,-.15],[1.32,-.15],[1.4,.28],[1.8,.28],[1.95,-.15],[2.3,-.5],[2.7,-.58],[PI,-.6]];
+function commonK(P,keys){const pa=Math.abs(Math.atan2(P[0],P[2])),th=lin(keys,pa)+.05*vnoise(P[0]*7,P[1]*3,P[2]*7);return{m:sstep(-.03,.12,P[1]-th),pa}}
+function common(P){const pa=Math.abs(Math.atan2(P[0],P[2])),th=lin(HL,pa)+.06*vnoise(P[0]*7,P[1]*3,P[2]*7);return{m:sstep(-.03,.12,P[1]-th),pa}}
+const CROWN=[0,1.0,-.42];
+function flowDir(P,N){const rad=vnorm(vsub(P,CROWN));return tang(vnorm(vadd(vmul(rad,.55),[0,-.8,0])),N)}
 const nz=(P,f)=>[vnoise(P[0]*f,P[1]*f,P[2]*f),vnoise(P[0]*f+17,P[1]*f+3,P[2]*f+9),vnoise(P[0]*f+31,P[1]*f+11,P[2]*f+5)];
 function fadeSides(y,lo,hi,a,b){return a+(b-a)*sstep(lo,hi,y)}
 const STYLE={
+ wavy(P,N,R){const c=commonK(P,HLW);if(c.m<=0)return null;const y=P[1];
+   const topT=sstep(.3,.46,y),sideL=fadeSides(y,-.5,.34,.02,.1),k=nz(P,4),fw=sstep(.1,.85,P[2]);
+   const sx=P[0]>.02?1:-1,topL=lerp(.45,.8,fw)*(.6+.4*sstep(.35,.9,y))*(.92+R()*.16);
+   const d0t=vnorm(vadd(vmul(N,.75),[0,.35,.1*fw])),
+         dFront=vnorm([sx*.85+k[0]*.15,-.4+k[1]*.1,.1]),dSide=vnorm([P[0]*.5,-.9,-.1]),d1t=vmix(dSide,dFront,fw);
+   return{dens:c.m*(.35+.65*sstep(-.5,.3,y)),L:lerp(sideL,topL,topT),d0:vnorm(vmix(N,d0t,topT)),d1:vnorm(vmix(flowDir(P,N),d1t,topT)),bend:1.1,lay:lerp(.95,.35,topT),qtip:lerp(1.05,1.55,topT),wave:.055,wavefreq:8,calm:.5,r:.0075}},
  taper(P,N,R){const c=common(P);if(c.m<=0)return null;const y=P[1];
-   const topT=sstep(.3,.72,y),sideL=fadeSides(y,-.1,.5,.04,.2),tf=sstep(-.8,.2,P[2]),topL=lerp(.42,.62,tf);
+   const topT=sstep(.2,.8,y),sideL=fadeSides(y,-.1,.55,.04,.22),tf=sstep(-.8,.2,P[2]),topL=lerp(.42,.62,tf),fw=sstep(.15,.8,P[2]);
    const sx=P[0]>-.32?1:-1,k=nz(P,5);
-   const d0t=vnorm(vadd(vmul(N,.85),[0,.35,.2*tf])),d1t=vnorm([sx*.9+k[0]*.3,-.45+k[1]*.2,-.18+k[2]*.2]);
-   const d0s=N,d1s=tang([0,-1,-.35],N);
-   return{dens:c.m*(.7+.3*sstep(-.05,.45,y)),L:lerp(sideL,topL,topT)*(.88+R()*.24),d0:vnorm(vmix(d0s,d0t,topT)),d1:vnorm(vmix(d1s,d1t,topT)),bend:1,lay:lerp(.95,.85,topT),qtip:lerp(1.05,1.3,topT),r:.0075}},
+   const d0t=vnorm(vadd(vmul(N,.85),[0,.35,.2*tf])),d1t=vmix(vnorm([sx*.65+k[0]*.2,-.7+k[1]*.12,-.2+k[2]*.15]),vnorm([sx*.5+k[0]*.18,.12,-.75]),fw*.85);
+   const d0s=N,d1s=flowDir(P,N);
+   return{dens:c.m*(.7+.3*sstep(-.05,.45,y))*(1-.7*topT*(1-sstep(0,.05,Math.abs(P[0]+.32)))),L:lerp(sideL,topL,topT)*(.88+R()*.24),d0:vnorm(vmix(d0s,d0t,topT)),d1:vnorm(vmix(d1s,d1t,topT)),bend:1,lay:lerp(.95,.72,topT),qtip:lerp(1.05,1.42,topT),wave:.016,r:.0075}},
  pompadour(P,N,R){const c=common(P);if(c.m<=0)return null;const y=P[1];
-   const topT=sstep(.3,.7,y),sideL=fadeSides(y,-.1,.45,.04,.18),tf=sstep(-.4,.85,P[2]),topL=lerp(.52,1.0,tf),k=nz(P,5);
-   const d0t=vnorm(vadd(vmul(N,.5),[0,.9,.5*tf])),d1t=vnorm([k[0]*.25,-.15+k[1]*.15,-1]);
-   return{dens:c.m,L:lerp(sideL,topL,topT)*(.9+R()*.2),d0:vnorm(vmix(N,d0t,topT)),d1:vnorm(vmix(tang([0,-1,-.3],N),d1t,topT)),bend:1.5,lay:lerp(.95,lerp(.7,.12,tf),topT),qtip:lerp(1.05,lerp(1.25,1.9,tf),topT),r:.0075}},
+   const topT=sstep(.34,.62,y),sideL=fadeSides(y,-.1,.45,.03,.12),tf=sstep(-.3,.75,P[2]),k=nz(P,5);
+   const topL=lerp(.55,1.15,tf*tf),
+         d0t=vnorm(vadd(vmul(N,.3),[0,1,.45*tf])),d1t=vnorm([k[0]*.2,-.05+k[1]*.1,-1]);
+   return{dens:c.m,L:lerp(sideL,topL,topT)*(.9+R()*.2),d0:vnorm(vmix(N,d0t,topT)),d1:vnorm(vmix(flowDir(P,N),d1t,topT)),bend:1.7,lay:lerp(.95,lerp(.6,.12,tf),topT),qtip:lerp(1.05,lerp(1.3,2.3,tf),topT),wave:.01,calm:.3,r:.0075}},
  buzz(P,N,R){const c=common(P);if(c.m<=0)return null;
-   return{dens:c.m,L:(.045+.045*sstep(-.2,.7,P[1]))*(.85+R()*.3),d0:vnorm(vadd(vmul(N,.85),[0,.1,0])),d1:vnorm(vadd(vmul(N,.5),vmul(tang([0,-.3,-.7],N),.5))),bend:1,lay:.9,qtip:1.07,r:.0062}},
+   return{dens:c.m,L:(.045+.045*sstep(-.2,.7,P[1]))*(.85+R()*.3),d0:vnorm(vadd(vmul(N,.85),[0,.1,0])),d1:vnorm(vadd(vmul(N,.5),vmul(flowDir(P,N),.5))),bend:1,lay:.9,qtip:1.07,r:.0062}},
  undercut(P,N,R){const c=common(P);if(c.m<=0)return null;const y=P[1];
-   const topT=sstep(.34,.42,y),sideL=fadeSides(y,-.1,.3,.035,.1),tf=sstep(-.4,.85,P[2]),topL=lerp(.55,.82,tf),k=nz(P,6);
-   const d0t=vnorm(vadd(vmul(N,.5),[0,.25,-.55])),d1t=vnorm([k[0]*.12,-.3+k[1]*.1,-1]);
-   return{dens:c.m*lerp(.75,1,topT),L:lerp(sideL,topL,topT)*(.92+R()*.16),d0:vnorm(vmix(N,d0t,topT)),d1:vnorm(vmix(tang([0,-1,-.3],N),d1t,topT)),bend:.8,lay:lerp(.95,.85,topT),qtip:lerp(1.05,1.18,topT),r:.0075}},
+   const topT=sstep(.4,.5,y),sideL=fadeSides(y,-.1,.4,.025,.07),tf=sstep(-.4,.85,P[2]),topL=lerp(.7,1.05,tf),k=nz(P,6);
+   const d0t=vnorm(vadd(vmul(N,.45),[0,.2,-.65])),d1t=vnorm([k[0]*.06,-.28+k[1]*.05,-1]);
+   return{dens:c.m*lerp(.7,1,topT),L:lerp(sideL,topL,topT)*(.94+R()*.12),d0:vnorm(vmix(N,d0t,topT)),d1:vnorm(vmix(flowDir(P,N),d1t,topT)),bend:.7,lay:lerp(.95,.88,topT),qtip:lerp(1.05,1.3,topT),wave:.006,r:.0072}},
  flattop(P,N,R){const c=common(P);if(c.m<=0)return null;const y=P[1];
-   const topT=sstep(.55,.85,y),sideL=fadeSides(y,-.1,.5,.04,.2),k=nz(P,6);
-   const dt=vnorm(vadd(vmul(N,.25),[k[0]*.05,.95,k[2]*.05])),Ytop=1.22,Lt=Math.min(.42,Math.max(.12,(Ytop-y)/Math.max(dt[1],.3)));
-   return{dens:c.m,L:lerp(sideL,Lt,topT)*(.97+R()*.06),d0:vnorm(vmix(N,dt,topT)),d1:vnorm(vmix(tang([0,-1,-.3],N),dt,topT)),bend:1,lay:lerp(.95,0,topT),qtip:1.05,r:.0078}},
+   const topT=sstep(.5,.62,y),sideL=fadeSides(y,-.15,.5,.035,.14),k=nz(P,6);
+   const dt=vnorm([k[0]*.03,1,k[2]*.03]),Ytop=1.22,Lt=Math.min(.5,Math.max(.14,(Ytop-y)/dt[1]));
+   return{dens:c.m,L:lerp(sideL,Lt,topT)*(.985+R()*.03),d0:vnorm(vmix(N,dt,topT)),d1:vnorm(vmix(flowDir(P,N),dt,topT)),bend:1,lay:lerp(.95,0,topT),qtip:1.05,wave:.001,calm:.15,lv:.04,r:.0085}},
  crop(P,N,R){const c=common(P);if(c.m<=0)return null;const y=P[1];
-   const topT=sstep(.3,.72,y),sideL=fadeSides(y,-.1,.5,.04,.2),tf=sstep(-.2,.8,P[2]),k=nz(P,7),k2=nz(P,3);
-   const topL=lerp(.3,.5,tf)*(.65+R()*.7);
+   const topT=sstep(.22,.78,y),sideL=fadeSides(y,-.1,.55,.04,.2),tf=sstep(-.2,.8,P[2]),k=nz(P,7),k2=nz(P,3);
+   const topL=lerp(.26,.4,tf)*(.72+R()*.56);
    const d0t=vnorm(vadd(vmul(N,.7),[k[1]*.4,.4,k[2]*.4])),
          d1t=vnorm(vadd(vmix([k2[0]*1.4,-.2,-.3+k2[2]*.8],[k2[0]*.9,-.5,.85],tf),[(R()-.5)*.5,(R()-.5)*.3,(R()-.5)*.3]));
-   return{dens:c.m,L:lerp(sideL,topL,topT)*(.85+R()*.3),d0:vnorm(vmix(N,d0t,topT)),d1:vnorm(vmix(tang([0,-1,-.3],N),d1t,topT)),bend:1.2,lay:lerp(.95,.7,topT),qtip:lerp(1.05,1.3,topT),r:.0075}}
+   return{dens:c.m,L:lerp(sideL,topL,topT)*(.85+R()*.3),d0:vnorm(vmix(N,d0t,topT)),d1:vnorm(vmix(flowDir(P,N),d1t,topT)),bend:1.2,lay:lerp(.95,.55,topT),qtip:lerp(1.05,1.4,topT),wave:.02,r:.0075}}
 };
+function clipper(L,cov,r){return function(P,N,R){const c=common(P);if(c.m<=0)return null;const fl=flowDir(P,N);
+  return{dens:c.m,L:L*(.85+R()*.3),d0:vnorm(vadd(vmul(N,.8),vmul(fl,.2))),d1:vnorm(vadd(vmul(N,.4),vmul(fl,.6))),bend:1,lay:.9,qtip:1.0,cov,calm:.3,r:r||.0055}}}
 function beardAt(P,N,R){
   const x=P[0],y=P[1],z=P[2],ax=Math.abs(x);if(z<-.05||y<-1.04)return null;
   const top=-.3+.3*sstep(.15,.78,ax),m1=sstep(0,.06,top-y),dl=Math.hypot(ax/.3,(y+.46)/.095),m2=sstep(1,1.5,dl),m3=sstep(.9,.78,ax);
@@ -915,7 +952,7 @@ function buildStrands(headBuild,fn,count,seed,opt){
     const cn=vnorm([nrm[a*3]+nrm[b*3]+nrm[c*3],nrm[a*3+1]+nrm[b*3+1]+nrm[c*3+1],nrm[a*3+2]+nrm[b*3+2]+nrm[c*3+2]]);
     const s=fn(cen,cn,()=>.5);if(!s||s.dens<=.02)continue;
     const ar=vlen(vcross(vsub(pos[b],pos[a]),vsub(pos[c],pos[a])))*.5;
-    if(ar<=0)continue;tot+=ar*(1+2.5*(1-sstep(.05,.22,s.L)));tri.push([a,b,c]);cum.push(tot)}
+    if(ar<=0)continue;tot+=ar*(1+5*(1-sstep(.05,.22,s.L)));tri.push([a,b,c]);cum.push(tot)}
   const S=[];let verts=0,segs=0;
   let tries=0;
   while(S.length<count&&tries<count*4){tries++;
@@ -924,32 +961,36 @@ function buildStrands(headBuild,fn,count,seed,opt){
     const P=[pos[a][0]*w+pos[b][0]*u+pos[c][0]*v,pos[a][1]*w+pos[b][1]*u+pos[c][1]*v,pos[a][2]*w+pos[b][2]*u+pos[c][2]*v];
     const N=vnorm([nrm[a*3]*w+nrm[b*3]*u+nrm[c*3]*v,nrm[a*3+1]*w+nrm[b*3+1]*u+nrm[c*3+1]*v,nrm[a*3+2]*w+nrm[b*3+2]*u+nrm[c*3+2]*v]);
     const s=fn(P,N,R);if(!s||R()>s.dens)continue;
-    const nseg=clamp(Math.round(s.L/.075)+2,3,9);
+    const lk=vnoise(P[0]*9,P[1]*9,P[2]*9),lk2=nz(P,8);
+    const LL=s.L*(1+.25*lk*(s.lv==null?1:s.lv));
+    const nseg=clamp(Math.round(LL/.07)+2,3,10);
     const path=[],p0=vadd(P,vmul(N,.007));path.push(p0);let p=p0;
-    const ph=R()*TAU,wob=(.004+.01*R()),step=s.L/nseg,jit=[(R()-.5)*.14,(R()-.5)*.14,(R()-.5)*.14];
+    const ph=lk*5+R()*.6,wob=(s.wave||.008)*(.6+R()*.4),fr=(s.wavefreq||5)+3*lk,step=LL/nseg,
+      jit=vmul([(R()-.5)*.1+lk2[0]*.16,(R()-.5)*.1+lk2[1]*.1,(R()-.5)*.1+lk2[2]*.16],s.calm==null?.55:s.calm);
     for(let i=1;i<=nseg;i++){const t=i/nseg,e=Math.pow(t,s.bend||1);
       let d=vnorm(vmix(s.d0,vadd(s.d1,jit),e));
       p=vadd(p,vmul(d,step));
-      const wv=Math.sin(ph+t*5)*wob*t;p=[p[0]+wv*s.d0[2],p[1],p[2]-wv*s.d0[0]];
-      p=hug(p,lerp(.014,((s.qtip||1.03)-1)*.45,t),s.lay||0);path.push(p)}
-    S.push({path,r:s.r*(.85+R()*.35)*(s.L<.12?.75:1),shade:.82+R()*.32});verts+=(nseg+1)*3;segs+=nseg}
+      p=hug(p,lerp(.014,((s.qtip||1.03)-1)*.45,t),s.lay||0);
+      let wp=vcross(d,N);wp=vlen(wp)>1e-4?vnorm(wp):[1,0,0];
+      const pw=vadd(p,vmul(wp,Math.sin(ph+t*fr)*wob*Math.min(1,t*2.2)));pw.o=p.o;path.push(pw)}
+    S.push({path,r:s.r*(.85+R()*.35)*lerp(.95,1.7,sstep(.08,.4,LL)),shade:(.8+R()*.3)*(1+.16*lk)});verts+=(nseg+1)*3;segs+=nseg}
   // pack
   const P=new Float32Array(verts*3),N=new Float32Array(verts*3),SH=new Float32Array(verts),I=new Uint32Array(segs*18);
-  let vo=0,io=0;
-  for(const st of S){const n=st.path.length;
+  let vo=0,io=0;const SV=[],SI=[];
+  for(const st of S){SV.push(vo);SI.push(io);const n=st.path.length;
     for(let i=0;i<n;i++){
       const a=st.path[Math.max(0,i-1)],b=st.path[Math.min(n-1,i+1)];let t=vnorm(vsub(b,a));
       const ref=Math.abs(t[1])<.9?UP:FWD,u=vnorm(vcross(t,ref)),v=vcross(t,u);
-      const rad=st.r*(1-.7*i/(n-1));
+      const rad=st.r*(1-.45*i/(n-1)),ao=.72+.28*clamp((st.path[i].o||0)/.06,0,1);
       for(let k=0;k<3;k++){const an=k/3*TAU,cx=Math.cos(an),sy=Math.sin(an);
         const nn=[u[0]*cx+v[0]*sy,u[1]*cx+v[1]*sy,u[2]*cx+v[2]*sy];
         P[vo*3]=st.path[i][0]+nn[0]*rad;P[vo*3+1]=st.path[i][1]+nn[1]*rad;P[vo*3+2]=st.path[i][2]+nn[2]*rad;
         N[vo*3]=nn[0];N[vo*3+1]=nn[1];N[vo*3+2]=nn[2];
-        SH[vo]=st.shade*(.58+.5*(i/(n-1)));vo++}}
+        SH[vo]=st.shade*(.46+.6*(i/(n-1)))*ao;vo++}}
     const base=vo-n*3;
     for(let i=0;i<n-1;i++)for(let k=0;k<3;k++){const a=base+i*3+k,b=base+i*3+(k+1)%3,c=base+(i+1)*3+k,d=base+(i+1)*3+(k+1)%3;
       I[io++]=a;I[io++]=b;I[io++]=c;I[io++]=b;I[io++]=d;I[io++]=c}}
-  return{pos:P,nor:N,shade:SH,idx:I,count:S.length}
+  return{pos:P,nor:N,shade:SH,idx:I,count:S.length,sv:SV,si:SI}
 }
 function eyebrows(headBuild,seed){
   const R=rng(seed),S=[];
@@ -976,16 +1017,36 @@ function packStrands(S){
       I[io++]=a;I[io++]=b;I[io++]=c;I[io++]=b;I[io++]=d;I[io++]=c}}
   return{pos:P,nor:N,shade:SH,idx:I,count:S.length}}
 
+
+function eyelashes(seed){
+  const R=rng(seed),S=[];
+  [-1,1].forEach(sd=>{
+    const c=eyePos(sd),Rr=.14*1.06;
+    [[Math.sin(1.0),Math.cos(1.0),.74,1,15,.055],[-Math.sin(1.05),Math.cos(1.05),.92,-1,9,.032]].forEach(([ay,az,thm,up,n,len])=>{
+      const ax=vnorm([0,ay,az]),ref=Math.abs(ax[1])<.9?UP:FWD,u=vnorm(vcross(ax,ref)),v=vcross(ax,u);
+      let tries=0,made=0;
+      while(made<n&&tries<400){tries++;
+        const ph=R()*TAU,d=vadd(vmul(ax,Math.cos(thm)),vmul(vadd(vmul(u,Math.cos(ph)),vmul(v,Math.sin(ph))),Math.sin(thm)));
+        if(d[2]<.1)continue;
+        const lat=Math.abs(d[0]);if(lat>.8)continue;
+        const p0=vadd(c,vmul(d,Rr));
+        const out=vnorm(vadd(vmul(d,.6),[sd*d[0]*.3,up*.6,.5])),curl=vnorm(vadd(out,[0,up*.7,.35]));
+        const path=[p0];let p=p0;const L=len*(.7+R()*.5);
+        for(let i=1;i<=3;i++){p=vadd(p,vmul(vnorm(vmix(out,curl,i/3)),L/3));path.push(p)}
+        S.push({path,r:.0028,shade:.5+R()*.3});made++}
+    })});
+  return packStrands(S)}
+
 /* ---------- caps: scalp / stubble overlay with soft coverage ---------- */
 function buildCap(headBuild,fn){
-  const {mb,headTris,headVerts}=headBuild,pos=mb.pos,nrm=headBuild.nrm,cov=new Float32Array(headVerts);
+  const {mb,headTris,headVerts}=headBuild,pos=mb.pos,nrm=headBuild.nrm,cov=new Float32Array(headVerts),lenv=new Float32Array(headVerts);
   for(let i=0;i<headVerts;i++){const P=pos[i],N=[nrm[i*3],nrm[i*3+1],nrm[i*3+2]],s=fn(P,N,()=>.5);
-    cov[i]=s?s.dens*(.62+.38*sstep(.03,.2,s.L)):0}
+    cov[i]=s?s.dens*(s.cov!=null?s.cov:(.62+.38*sstep(.03,.2,s.L))):0;lenv[i]=s?s.L:0}
   const idx=[];
   for(let t=0;t<headTris;t++){const a=mb.idx[t*3],b=mb.idx[t*3+1],c=mb.idx[t*3+2];
     if(Math.max(cov[a],cov[b],cov[c])>.03)idx.push(a,b,c)}
   const P=new Float32Array(headVerts*3);
-  for(let i=0;i<headVerts;i++){const o=.003+.006*cov[i];P[i*3]=pos[i][0]+nrm[i*3]*o;P[i*3+1]=pos[i][1]+nrm[i*3+1]*o;P[i*3+2]=pos[i][2]+nrm[i*3+2]*o}
+  for(let i=0;i<headVerts;i++){const o=.004+.009*sstep(.05,.4,lenv[i])*Math.min(1,cov[i]*1.5);P[i*3]=pos[i][0]+nrm[i*3]*o;P[i*3+1]=pos[i][1]+nrm[i*3+1]*o;P[i*3+2]=pos[i][2]+nrm[i*3+2]*o}
   return{pos:P,nor:headBuild.nrm.slice(0,headVerts*3),idx:new Uint32Array(idx),cov}}
 
 /* ---------- colours ---------- */
@@ -1017,7 +1078,7 @@ function init(){
   return{head,eyes}}
 
 const hairStyleIds=Object.keys(STYLE);
-return{init,eyePos,STYLE,snap,beardAt,buildStrands,buildCap,eyebrows,skinColors,strandColors,capColors,hex2lin,hairStyleIds,surfaceZ};
+return{init,eyePos,ringPoint,clipper,STYLE,snap,beardAt,buildStrands,buildCap,eyebrows,eyelashes,skinColors,strandColors,capColors,hex2lin,hairStyleIds,surfaceZ};
 })();
 
 
@@ -1027,6 +1088,7 @@ return{init,eyePos,STYLE,snap,beardAt,buildStrands,buildCap,eyebrows,skinColors,
 const $=id=>document.getElementById(id);
 const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const STYLES=[
+  {id:'wavy',name:'Wavy two-block',tag:'Curtain fringe, low taper',time:'About 50 min',desc:'A longer, softly wavy top with a centre-leaning part and a curtain fringe that falls to both sides. The sides and back taper low to the skin with a soft, natural neckline.'},
   {id:'taper',name:'Classic taper',tag:'Short sides, side part',time:'About 45 min',desc:'Sides fade gently into a neat, side-parted top. Easy to wear to the office or a wedding.'},
   {id:'pompadour',name:'Pompadour',tag:'Tall swept-up top',time:'About 50 min',desc:'Sides cut close, top left long and swept up and back with volume at the front. Needs a little styling product.'},
   {id:'buzz',name:'Buzz cut',tag:'One short length',time:'About 25 min',desc:'One even length all over with clippers. Quick, clean, and almost no upkeep.'},
@@ -1036,8 +1098,24 @@ const STYLES=[
 ];
 const HAIR=[['Black','#26201b'],['Brown','#4b2f1e'],['Blonde','#c9a15a'],['Silver','#b4b2b0']];
 const SKIN=[['Light','#f1c9a8'],['Medium','#cf9467'],['Deep','#80513a']];
-const COUNT={taper:12000,pompadour:12000,buzz:16000,undercut:12000,flattop:12000,crop:12000};
-const state={i:0,hair:HAIR[0][1],skin:SKIN[0][1],beard:false};
+const COUNT={wavy:18000,taper:16000,pompadour:16000,buzz:18000,undercut:16000,flattop:16000,crop:16000};
+const GUARDS=[
+  {n:0,mm:'0.5 mm',L:.008,cov:.22,cnt:6000,r:.004,desc:'Skin-close cut that leaves only a faint shadow. The cleanest and shortest clipper setting.'},
+  {n:1,mm:'3 mm',L:.03,cov:.42,cnt:14000,r:.0045,desc:'Very short, even stubble. Easy to maintain and still shows the shape of the head.'},
+  {n:2,mm:'6 mm',L:.06,cov:.58,cnt:16000,r:.005,desc:'Short and neat, with a little more cover on top. A popular all-over buzz.'},
+  {n:3,mm:'10 mm',L:.1,cov:.7,cnt:16000,r:.0055,desc:'Short, but with enough length to see the hair lie flat. Softer and more forgiving.'}];
+const GMM={0:'0.5 mm',1:'3 mm',2:'6 mm',3:'10 mm'},GW={0:14,1:34,2:56,3:80};
+const GUIDE={
+  wavy:{top:'Scissors, 6 to 8 cm',rows:[2,1,0],note:'Low taper',y:[.3,-.35],ty:1.2},
+  taper:{top:'Scissors, 5 to 6 cm',rows:[3,2,1,0],note:'Taper fade',y:[.5,-.35],ty:1.2},
+  pompadour:{top:'Scissors, 8 to 10 cm',rows:[2,1,0],note:'High skin fade',y:[.5,-.3],ty:1.7},
+  buzz:{top:'Guard #3, 10 mm',rows:[2,1,0],note:'Taper at the neck',y:[.55,-.3],ty:1.1},
+  undercut:{top:'Scissors, 8 to 10 cm',rows:[1,0],note:'Sharp block line',y:[.35,-.3],ty:1.25},
+  flattop:{top:'Flat-top comb, 3 to 4 cm',rows:[3,2,1],note:'High and tight',y:[.55,-.1],ty:1.35},
+  crop:{top:'Scissors, 3 to 5 cm',rows:[2,1,0],note:'Mid taper',y:[.45,-.3],ty:1.2}
+};
+let zonePills=[];
+const state={i:0,hair:HAIR[0][1],skin:SKIN[0][1],beard:false,guard:null};
 const api={build(){},paint(){},beard(){}};
 
 /* ---- UI ---- */
@@ -1045,7 +1123,7 @@ const list=$('stylelist');
 STYLES.forEach((s,i)=>{
   const b=document.createElement('button');b.type='button';b.className='stylebtn';
   b.innerHTML='<strong>'+s.name+'</strong><small>'+s.tag+'</small>';
-  b.addEventListener('click',()=>{state.i=i;sync(true);api.build()});
+  b.addEventListener('click',()=>{state.i=i;state.guard=null;sync(true);api.build()});
   list.appendChild(b);
 });
 function swatches(el,arr,key){
@@ -1057,12 +1135,27 @@ function swatches(el,arr,key){
   });
 }
 swatches($('hairSw'),HAIR,'hair');swatches($('skinSw'),SKIN,'skin');
+GUARDS.forEach(g=>{const b=document.createElement('button');b.type='button';b.className='gbtn';b.textContent='#'+g.n;b.dataset.n=g.n;
+  b.setAttribute('aria-label','Clipper guard number '+g.n+', '+g.mm);
+  b.addEventListener('click',()=>{state.guard=state.guard===g.n?null:g.n;sync(true);api.build()});$('guardSw').appendChild(b)});
+function renderGuide(){
+  const g=state.guard!=null?{top:'Guard #'+state.guard+', '+GMM[state.guard],rows:[state.guard],note:'All over',y:[.3,.3],ty:1.12}:GUIDE[STYLES[state.i].id];
+  const top=state.guard!=null?'<div class="gtop"><small>'+g.top+'</small></div>':'<div class="gtop"><span></span><small>Top: '+g.top+'</small></div>';
+  const rows=g.rows.map(n=>'<div class="gr"><b>#'+n+'</b><i style="width:'+Math.round(GW[n]*.7)+'px"></i><small>'+GMM[n]+(n===g.rows[g.rows.length-1]&&g.rows.length>1?' at the neckline':'')+'</small></div>').join('');
+  const zc=$('zones');zc.innerHTML='';zonePills=[];
+  const addPill=(txt,cls,o)=>{const el=document.createElement('span');el.className='zp'+(cls?' '+cls:'');el.textContent=txt;zc.appendChild(el);zonePills.push(Object.assign({el},o))};
+  const ys=state.guard!=null?[.3]:g.rows.map((n,i)=>g.y[0]+(g.y[1]-g.y[0])*(i+.5)/g.rows.length);
+  g.rows.forEach((n,i)=>[1.9,-1.9].forEach(psi=>addPill('#'+n,'',{kind:'side',psi,y:ys[i]})));
+  addPill(state.guard!=null?'#'+state.guard:'Top',state.guard!=null?'':'top',{kind:'top',y:state.guard!=null?1.12:g.ty});
+  $('guide').innerHTML='<h4>Clipper guide <span class="gnote">'+g.note+'</span></h4>'+top+rows}
 function sync(swap){
-  const s=STYLES[state.i];
-  [...list.children].forEach((b,i)=>b.setAttribute('aria-pressed',i===state.i));
+  const s=STYLES[state.i],g=state.guard!=null?GUARDS[state.guard]:null;
+  [...list.children].forEach((b,i)=>b.setAttribute('aria-pressed',!g&&i===state.i));
+  document.querySelectorAll('#guardSw .gbtn').forEach(b=>b.setAttribute('aria-pressed',!!g&&+b.dataset.n===g.n));
   document.querySelectorAll('#hairSw .sw').forEach(b=>b.setAttribute('aria-pressed',b.dataset.c===state.hair));
   document.querySelectorAll('#skinSw .sw').forEach(b=>b.setAttribute('aria-pressed',b.dataset.c===state.skin));
-  $('dName').textContent=s.name;$('dDesc').textContent=s.desc;$('dTime').textContent=s.time;
+  $('dName').textContent=g?'Clipper #'+g.n+' all over':s.name;$('dDesc').textContent=g?g.desc+' Guard length: '+g.mm+'.':s.desc;$('dTime').textContent=g?'About 20 min':s.time;
+  renderGuide();
   if(swap){const d=$('detail');d.classList.remove('swap');void d.offsetWidth;d.classList.add('swap')}
 }
 sync();
@@ -1070,7 +1163,7 @@ $('beard').addEventListener('change',e=>{state.beard=e.target.checked;api.beard(
 
 /* ---- book this style ---- */
 $('bookStyle').addEventListener('click',()=>{
-  pickedStyle=STYLES[state.i].name;
+  pickedStyle=state.guard!=null?'Clipper #'+state.guard+' all over':STYLES[state.i].name;
   const f=$('bookingForm');
   const tick=n=>{const cb=f.querySelector('input[name=svc][data-name="'+n+'"]');if(cb&&!cb.checked){cb.checked=true;cb.dispatchEvent(new Event('change',{bubbles:true}))}};
   tick('Haircut');if(state.beard)tick('Beard trim');
@@ -1083,37 +1176,55 @@ function init3D(){
   if(typeof THREE==='undefined')throw new Error('three.js missing');
   const canvas=$('c3d'),viewer=canvas.parentElement;
   const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+  const small=window.innerWidth<700;
   renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
   renderer.outputEncoding=THREE.sRGBEncoding;
-  renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.0;
+  renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=.8;
   renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
   const scene=new THREE.Scene();
   const camera=new THREE.PerspectiveCamera(32,1,.1,60);
   camera.position.set(0,-.25,9);camera.lookAt(0,-.5,0);
 
   // lights
-  scene.add(new THREE.HemisphereLight(0xfff3e8,0x8a6a55,.45));
-  const key=new THREE.DirectionalLight(0xfff1e0,1.7);key.position.set(3.5,5,6);key.castShadow=true;
-  key.shadow.mapSize.set(2048,2048);
+  scene.add(new THREE.HemisphereLight(0xfff3e8,0x8a6a55,.3));
+  const key=new THREE.DirectionalLight(0xfff1e0,1.15);key.position.set(3.5,5,6);key.castShadow=true;
+  key.shadow.mapSize.set(small?1536:2048,small?1536:2048);
   const sc=key.shadow.camera;sc.left=-3;sc.right=3;sc.top=3.4;sc.bottom=-3;sc.near=1;sc.far=20;sc.updateProjectionMatrix();
   key.shadow.bias=-.0004;key.shadow.normalBias=.02;scene.add(key);
-  const rim=new THREE.DirectionalLight(0xF47B10,1.0);rim.position.set(-5,3,-4);scene.add(rim);
-  const fill=new THREE.DirectionalLight(0xdbe6ff,.35);fill.position.set(-4,0,5);scene.add(fill);
+  const rim=new THREE.DirectionalLight(0xF47B10,.6);rim.position.set(-5,3,-4);scene.add(rim);
+  const fill=new THREE.DirectionalLight(0xdbe6ff,.18);fill.position.set(-4,0,5);scene.add(fill);
 
   // soft studio environment for realistic reflections on skin and hair
   try{
     const es=new THREE.Scene(),sg=new THREE.SphereGeometry(10,32,16),pa=sg.attributes.position,cols=[];
-    for(let i=0;i<pa.count;i++){const t=(pa.getY(i)/10+1)/2;cols.push(.22+.7*t,.18+.66*t,.15+.6*t)}
+    for(let i=0;i<pa.count;i++){const t=(pa.getY(i)/10+1)/2;cols.push(.08+.3*t,.07+.28*t,.06+.26*t)}
     sg.setAttribute('color',new THREE.Float32BufferAttribute(cols,3));
     es.add(new THREE.Mesh(sg,new THREE.MeshBasicMaterial({side:THREE.BackSide,vertexColors:true})));
     const panel=(w,h,pos,v)=>{const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({color:new THREE.Color(v,v,v),side:THREE.DoubleSide}));m.position.set(pos[0],pos[1],pos[2]);m.lookAt(0,0,0);es.add(m)};
-    panel(6,8,[-7,2,5],4);panel(4,6,[7,3,4],2.5);panel(8,3,[0,8,2],3);
+    panel(6,8,[-7,2,5],2.2);panel(4,6,[7,3,4],1.4);panel(8,3,[0,8,2],1.8);
     const pm=new THREE.PMREMGenerator(renderer);scene.environment=pm.fromScene(es,.03).texture;pm.dispose();
   }catch(e){console.warn('env map skipped',e)}
 
   const geo=(pos,nor,idx,col)=>{const g=new THREE.BufferGeometry();
     g.setAttribute('position',new THREE.BufferAttribute(pos,3));g.setAttribute('normal',new THREE.BufferAttribute(nor,3));
-    if(col)g.setAttribute('color',new THREE.BufferAttribute(col,3));g.setIndex(new THREE.BufferAttribute(idx,1));return g};
+    if(col)g.setAttribute('color',new THREE.BufferAttribute(col,3));
+    let mx=0;for(let i=0;i<idx.length;i++)if(idx[i]>mx)mx=idx[i];
+    g.setIndex(new THREE.BufferAttribute(mx<65535?Uint16Array.from(idx):idx,1));return g};
+  // split big strand meshes into chunks of <=60000 vertices with 16-bit indices (works on every phone GPU)
+  function strandGeos(st,cols){
+    const out=[],LIM=60000,sv=st.sv,si=st.si,nS=sv.length,totV=st.pos.length/3,totI=st.idx.length;let a=0;
+    while(a<nS){let b=a+1;while(b<nS&&sv[b]-sv[a]<=LIM)b++;
+      const v0=sv[a],v1=b<nS?sv[b]:totV,i0=si[a],i1=b<nS?si[b]:totI,ix=new Uint16Array(i1-i0);
+      for(let k=i0;k<i1;k++)ix[k-i0]=st.idx[k]-v0;
+      const g=new THREE.BufferGeometry();
+      g.setAttribute('position',new THREE.BufferAttribute(st.pos.subarray(v0*3,v1*3),3));
+      g.setAttribute('normal',new THREE.BufferAttribute(st.nor.subarray(v0*3,v1*3),3));
+      g.setAttribute('color',new THREE.BufferAttribute(cols.subarray(v0*3,v1*3),3));
+      g.setIndex(new THREE.BufferAttribute(ix,1));out.push(g);a=b}
+    return out}
+  function setStrands(group,geos){
+    while(group.children.length){group.remove(group.children[0])}
+    geos.forEach(g=>{const m=new THREE.Mesh(g,hairMat);m.castShadow=true;m.receiveShadow=true;group.add(m)})}
   const put=(g,m,parent)=>{const o=new THREE.Mesh(g,m);o.castShadow=true;o.receiveShadow=true;(parent||rig).add(o);return o};
   const rig=new THREE.Group();scene.add(rig);
 
@@ -1128,7 +1239,7 @@ function init3D(){
   const head=HeadGen.init();
   const skinCols=HeadGen.skinColors(head.head.mb,state.skin);
   const skinGeo=geo(head.head.skin.pos,head.head.skin.nor,head.head.skin.idx,skinCols);
-  put(skinGeo,new THREE.MeshStandardMaterial({vertexColors:true,roughness:.55,metalness:0,envMapIntensity:.65}));
+  put(skinGeo,new THREE.MeshPhysicalMaterial({vertexColors:true,roughness:.55,metalness:0,envMapIntensity:.45,clearcoat:.08,clearcoatRoughness:.5}));
   // eyes
   const E=head.eyes.skin;
   put(geo(E.pos,E.nor,E.idx,E.col),new THREE.MeshStandardMaterial({vertexColors:true,roughness:.22,envMapIntensity:1}));
@@ -1137,41 +1248,45 @@ function init3D(){
     const m=new THREE.Mesh(g,corneaMat);const c=HeadGen.eyePos(sd);m.position.set(c[0],c[1],c[2]);rig.add(m)});
 
   // hair groups
-  const hairMat=new THREE.MeshStandardMaterial({vertexColors:true,roughness:.4,metalness:.1,envMapIntensity:1.1,side:THREE.DoubleSide});
-  const capMat=new THREE.MeshStandardMaterial({vertexColors:true,roughness:.85,polygonOffset:true,polygonOffsetFactor:-1,polygonOffsetUnits:-1});
+  const hairMat=new THREE.MeshStandardMaterial({vertexColors:true,roughness:.64,metalness:0,envMapIntensity:.55,side:THREE.DoubleSide});
+  const capMat=new THREE.MeshStandardMaterial({vertexColors:true,roughness:.9,envMapIntensity:.4,polygonOffset:true,polygonOffsetFactor:-1,polygonOffsetUnits:-1});
   const hairG=new THREE.Group();rig.add(hairG);
   let ver=0;
   function make(fn,count,seed){
     const cap=HeadGen.buildCap(head.head,fn),st=HeadGen.buildStrands(head.head,fn,count,seed);
     const e={cap,st,ver:-1,capCols:new Float32Array(cap.cov.length*3),stCols:new Float32Array(st.shade.length*3)};
-    e.capGeo=geo(cap.pos,cap.nor,cap.idx,e.capCols);e.stGeo=geo(st.pos,st.nor,st.idx,e.stCols);return e}
+    e.capGeo=geo(cap.pos,cap.nor,cap.idx,e.capCols);e.stGeos=strandGeos(st,e.stCols);return e}
   function refresh(e){if(e.ver===ver)return;
     HeadGen.capColors(e.cap,skinCols,state.hair,e.capCols);HeadGen.strandColors(e.st.shade,state.hair,e.stCols);
-    e.capGeo.attributes.color.needsUpdate=true;e.stGeo.attributes.color.needsUpdate=true;e.ver=ver}
+    e.capGeo.attributes.color.needsUpdate=true;e.stGeos.forEach(x=>x.attributes.color.needsUpdate=true);e.ver=ver}
   const cache={};
   const capMesh=put(geo(new Float32Array(9),new Float32Array(9),new Uint32Array([0,1,2]),new Float32Array(9)),capMat,hairG);
-  const hairMesh=put(geo(new Float32Array(9),new Float32Array(9),new Uint32Array([0,1,2]),new Float32Array(9)),hairMat,hairG);
+  const strandG=new THREE.Group();hairG.add(strandG);
   // eyebrows
+  const ls=HeadGen.eyelashes(5),lsCols=new Float32Array(ls.shade.length*3);
+  const lsGeo=geo(ls.pos,ls.nor,ls.idx,lsCols);HeadGen.strandColors(ls.shade,'#15100c',lsCols);put(lsGeo,hairMat,rig);
   const br=HeadGen.eyebrows(head.head,3),brCols=new Float32Array(br.shade.length*3);
   const brGeo=geo(br.pos,br.nor,br.idx,brCols);put(brGeo,hairMat,rig);
   // beard
   let beardE=null;const beardCap=put(geo(new Float32Array(9),new Float32Array(9),new Uint32Array([0,1,2]),new Float32Array(9)),capMat,rig),
-      beardHair=put(geo(new Float32Array(9),new Float32Array(9),new Uint32Array([0,1,2]),new Float32Array(9)),hairMat,rig);
+      beardHair=new THREE.Group();rig.add(beardHair);
   beardCap.visible=beardHair.visible=false;
 
   let popT=1;
-  function showStyle(){const id=STYLES[state.i].id;const e=cache[id]||(cache[id]=make(HeadGen.STYLE[id],COUNT[id],7));
-    refresh(e);capMesh.geometry=e.capGeo;hairMesh.geometry=e.stGeo;if(!rm)popT=0}
+  const curId=()=>state.guard!=null?'g'+state.guard:STYLES[state.i].id;
+  function showStyle(){const id=curId(),g=state.guard!=null?GUARDS[state.guard]:null;
+    const e=cache[id]||(cache[id]=g?make(HeadGen.clipper(g.L,g.cov,g.r),g.cnt,5):make(HeadGen.STYLE[id],COUNT[id],7));
+    refresh(e);capMesh.geometry=e.capGeo;setStrands(strandG,e.stGeos);if(!rm)popT=0}
   function paint(){
     ver++;HeadGen.skinColors(head.head.mb,state.skin,skinCols);skinGeo.attributes.color.needsUpdate=true;
-    const e=cache[STYLES[state.i].id];if(e)refresh(e);
+    const e=cache[curId()];if(e)refresh(e);
     HeadGen.strandColors(br.shade,state.hair,brCols);brGeo.attributes.color.needsUpdate=true;
     if(beardE)refresh(beardE)}
   function busy(fn){viewer.classList.add('busy');setTimeout(()=>{try{fn()}finally{viewer.classList.remove('busy')}},30)}
   api.build=()=>busy(showStyle);
   api.paint=paint;
   api.beard=()=>{
-    if(state.beard&&!beardE){busy(()=>{beardE=make(HeadGen.beardAt,9000,11);refresh(beardE);beardCap.geometry=beardE.capGeo;beardHair.geometry=beardE.stGeo;beardCap.visible=beardHair.visible=true});return}
+    if(state.beard&&!beardE){busy(()=>{beardE=make(HeadGen.beardAt,9000,11);refresh(beardE);beardCap.geometry=beardE.capGeo;setStrands(beardHair,beardE.stGeos);beardCap.visible=beardHair.visible=true});return}
     beardCap.visible=beardHair.visible=state.beard&&!!beardE};
   paint();showStyle();
 
@@ -1197,17 +1312,28 @@ function init3D(){
   new ResizeObserver(resize).observe(viewer);resize();
   new IntersectionObserver(es=>{visible=es[0].isIntersecting}).observe(viewer);
 
+  const pv=new THREE.Vector3(),pn=new THREE.Vector3();
+  function placeZones(){
+    const W=viewer.clientWidth,H=viewer.clientHeight;rig.updateMatrixWorld();camera.updateMatrixWorld();
+    for(const z of zonePills){
+      let p,nr;
+      if(z.kind==='top'){p=[0,z.y,0];nr=null}
+      else{const a=Math.PI-z.psi;p=HeadGen.ringPoint(z.y,a);const l=Math.hypot(p[0],p[2])||1;nr=[p[0]/l,0,p[2]/l]}
+      pv.set(p[0],p[1],p[2]).applyMatrix4(rig.matrixWorld).project(camera);
+      let f=1;if(nr){pn.set(nr[0],nr[1],nr[2]).transformDirection(rig.matrixWorld);f=pn.z}
+      z.el.style.transform='translate('+((pv.x*.5+.5)*W).toFixed(1)+'px,'+((-pv.y*.5+.5)*H).toFixed(1)+'px) translate(-50%,-50%)';
+      z.el.style.opacity=f>-.45?1:f>-.65?((f+.65)/.2).toFixed(2):0}}
   const back=t=>{const c=1.70158,c3=c+1;return 1+c3*Math.pow(t-1,3)+c*Math.pow(t-1,2)};
   let last=performance.now();
   (function frame(now){
     requestAnimationFrame(frame);
-    const dt=Math.min((now-last)/1000,.05);last=now;
+    const dt=Math.max(0,Math.min((now-last)/1000,.05));last=now;
     if(!visible)return;
     if(auto&&!dragging)tY+=dt*.5;
     rotY+=(tY-rotY)*Math.min(1,dt*8);rotX+=(tX-rotX)*Math.min(1,dt*8);
     rig.rotation.y=rotY;rig.rotation.x=rotX;
     if(popT<1){popT=Math.min(1,popT+dt/.5);hairG.scale.setScalar(.94+.06*back(popT))}else hairG.scale.setScalar(1);
-    renderer.render(scene,camera);
+    renderer.render(scene,camera);placeZones();
   })(performance.now());
 }
 try{init3D()}catch(e){$('fb').hidden=false;console.warn(e)}
