@@ -1,10 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
-<head> 
-  <script src="booking.js" defer></script>
+<html lang="it">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ironside Barbers – Cuts, shaves and beard care</title>
+<title>Barbiere a Milano · Taglio, rasatura e barba | Ironside Barbers</title>
+<meta name="description" content="Ironside Barbers, barbiere a Milano: tagli classici e moderni, rasatura con rasoio e asciugamano caldo, cura della barba. Prenota online il tuo appuntamento.">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="it_IT">
+<meta property="og:site_name" content="Ironside Barbers">
+<meta property="og:title" content="Barbiere a Milano · Taglio, rasatura e barba | Ironside Barbers">
+<meta property="og:description" content="Tagli classici e moderni, rasatura con rasoio e asciugamano caldo e cura della barba. Prenota online il tuo appuntamento a Milano.">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BarberShop","name":"Ironside Barbers",
+"description":"Barbiere a Milano: tagli classici e moderni, rasatura con rasoio a mano libera e asciugamano caldo, cura della barba.",
+"telephone":"+39 02 1234 5678","priceRange":"€€",
+"address":{"@type":"PostalAddress","streetAddress":"Via della Fonderia 128","addressLocality":"Milano","postalCode":"20121","addressRegion":"MI","addressCountry":"IT"},
+"openingHoursSpecification":[
+{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday"],"opens":"09:00","closes":"19:00"},
+{"@type":"OpeningHoursSpecification","dayOfWeek":["Thursday","Friday"],"opens":"09:00","closes":"20:00"},
+{"@type":"OpeningHoursSpecification","dayOfWeek":"Saturday","opens":"08:00","closes":"17:00"}],
+"hasOfferCatalog":{"@type":"OfferCatalog","name":"Servizi","itemListElement":[
+{"@type":"Offer","priceCurrency":"EUR","price":"55","itemOffered":{"@type":"Service","name":"Taglio"}},
+{"@type":"Offer","priceCurrency":"EUR","price":"50","itemOffered":{"@type":"Service","name":"Rasatura con asciugamano caldo"}},
+{"@type":"Offer","priceCurrency":"EUR","price":"35","itemOffered":{"@type":"Service","name":"Cura della barba"}},
+{"@type":"Offer","priceCurrency":"EUR","price":"75","itemOffered":{"@type":"Service","name":"Pacchetto mensile"}}]}}
+</script>
+<script src="booking.js" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700;12..96,800&display=swap" rel="stylesheet">
 <style>
@@ -233,7 +256,7 @@ header.scrolled{box-shadow:0 6px 24px rgba(60,30,0,.08)}
 .viewer canvas:active{cursor:grabbing}
 .fallback{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:30px;color:#6a3d17;font-weight:600}
 .fallback[hidden]{display:none}
-.viewer.busy::after{content:"Styling...";position:absolute;top:18px;right:20px;background:var(--ink);color:#fff;padding:8px 16px;border-radius:30px;font-size:13px;font-weight:600}
+.viewer.busy::after{content:"Preparo lo stile...";position:absolute;top:18px;right:20px;background:var(--ink);color:#fff;padding:8px 16px;border-radius:30px;font-size:13px;font-weight:600}
 .hint{position:absolute;top:18px;left:22px;font-size:14px;font-weight:600;color:#7a4a22;pointer-events:none}
 .views{position:absolute;left:50%;bottom:18px;translate:-50% 0;display:flex;gap:4px;background:rgba(21,21,21,.92);padding:6px;border-radius:40px;white-space:nowrap}
 .views button{color:#fff;padding:9px 16px;border-radius:30px;font-size:14px;font-weight:600;transition:background .2s}
@@ -335,39 +358,34 @@ header.scrolled{box-shadow:0 6px 24px rgba(60,30,0,.08)}
 
 <header>
   <div class="wrap nav">
-    <a href="#top" class="logo" aria-label="Ironside Barbers home">
+    <a href="#top" class="logo" aria-label="Ironside Barbers – home">
       <svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="#F47B10" stroke-width="2.2" stroke-linecap="round"><circle cx="15" cy="15" r="13"/><path d="M10 22c0-8 3-12 9-14M13 23c0-6 2-9 7-11M16 24c0-4 2-6 5-7"/></svg>
       IRONSIDE<b>BARBERS</b>
     </a>
-    <nav aria-label="Main"><ul>
-      <li><a href="#services">Services</a></li>
-      <li><a href="#styles">Styles</a></li>
-      <li><a href="#shop">Shop</a></li>
-      <li><a href="#team">Barbers</a></li>
-      <li><a href="#book">Book</a></li>
+    <nav aria-label="Principale"><ul>
+      <li><a href="#services">Servizi</a></li>
+      <li><a href="#styles">Stili</a></li>
+      <li><a href="#team">Barbieri</a></li>
+      <li><a href="#book">Prenota</a></li>
     </ul></nav>
-    <a class="cart" href="#shop" aria-label="Cart">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.2 11h10.6L20 7H6"/><circle cx="9" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg>
-      <span id="cartCount" aria-live="polite">0</span>
-    </a>
   </div>
 </header>
 
 <main id="top">
   <div class="wrap hero">
     <div>
-      <h1>A smooth shave and a sharp cut, right in your town.</h1>
-      <p class="lead">Straight-razor shaves, classic and modern cuts, and beard care from barbers who have been doing this for over twenty years.</p>
+      <h1>Barbiere a Milano: rasatura impeccabile e taglio su misura.</h1>
+      <p class="lead">Rasature con rasoio a mano libera, tagli classici e moderni e cura della barba, da barbieri con oltre vent’anni di esperienza.</p>
       <div class="hero-cta">
-        <a href="#book" class="btn">Book an appointment</a>
-        <a href="#services" class="btn dark" aria-label="See services and prices">See prices</a>
+        <a href="#book" class="btn">Prenota un appuntamento</a>
+        <a href="#services" class="btn dark" aria-label="Vedi servizi e prezzi">Vedi i prezzi</a>
       </div>
-      <p class="hours" style="margin-top:28px"><span class="dot" id="dot"></span><span id="openText">Open today 9:00–19:00</span></p>
+      <p class="hours" style="margin-top:28px"><span class="dot" id="dot"></span><span id="openText">Aperto oggi 9:00–19:00</span></p>
     </div>
 
     <div class="stage">
       <div class="disc"></div>
-      <svg class="tools" viewBox="0 0 520 530" aria-label="Crossed barber scissors and a straight razor" role="img">
+      <svg class="tools" viewBox="0 0 520 530" aria-label="Forbici da barbiere incrociate e un rasoio a mano libera" role="img">
         <!-- razor -->
         <g transform="rotate(-28 260 300)">
           <rect x="236" y="60" width="26" height="250" rx="6" fill="#151515"/>
@@ -392,76 +410,42 @@ header.scrolled{box-shadow:0 6px 24px rgba(60,30,0,.08)}
         <circle cx="260" cy="300" r="12" fill="#F47B10" stroke="#151515" stroke-width="4"/>
       </svg>
 
-      <div class="chip c1" style="--d:900ms"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F47B10" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M8.5 7.5L20 19M8.5 16.5L20 5"/></svg></i><div><strong>$55</strong>Haircut</div></div>
-      <div class="chip c2" style="--d:1050ms"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F47B10" stroke-width="2" stroke-linecap="round"><path d="M5 20L14 5l5 3-9 15z"/></svg></i><div><strong>$50</strong>Shave</div></div>
-      <div class="chip c3" style="--d:1200ms"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F47B10" stroke-width="2" stroke-linecap="round"><path d="M6 10h12l-1 9H7z"/><path d="M9 10V5h6v5"/></svg></i><div><strong>$35</strong>Beard trim</div></div>
-      <div class="bundle"><span>Monthly care<br>bundle</span><b>$<span id="bn">75</span></b></div>
+      <div class="chip c1" style="--d:900ms"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F47B10" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M8.5 7.5L20 19M8.5 16.5L20 5"/></svg></i><div><strong>€55</strong>Taglio</div></div>
+      <div class="chip c2" style="--d:1050ms"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F47B10" stroke-width="2" stroke-linecap="round"><path d="M5 20L14 5l5 3-9 15z"/></svg></i><div><strong>€50</strong>Rasatura</div></div>
+      <div class="chip c3" style="--d:1200ms"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F47B10" stroke-width="2" stroke-linecap="round"><path d="M6 10h12l-1 9H7z"/><path d="M9 10V5h6v5"/></svg></i><div><strong>€35</strong>Barba</div></div>
+      <div class="bundle"><span>Pacchetto<br>mensile</span><b>€<span id="bn">75</span></b></div>
     </div>
   </div>
 
-  <div class="ticker"><div class="track"><div class="grp"><span>Hot towel shaves</span><span>Classic and modern cuts</span><span>Beard shaping</span><span>Monthly care bundle</span><span>Walk-ins welcome</span></div><div class="grp" aria-hidden="true"><span>Hot towel shaves</span><span>Classic and modern cuts</span><span>Beard shaping</span><span>Monthly care bundle</span><span>Walk-ins welcome</span></div></div></div>
-
-  <!-- best sellers -->
-  <div class="band" id="shop">
-    <div class="wrap band-grid">
-      <h2>Best-selling products</h2>
-      <article class="product">
-        <div class="pic"><svg width="40" height="66" viewBox="0 0 40 66"><rect x="14" y="2" width="12" height="12" rx="3" fill="#8b6b45"/><rect x="16" y="12" width="8" height="8" fill="#333"/><rect x="5" y="20" width="30" height="44" rx="6" fill="#e8dcc4"/><rect x="10" y="32" width="20" height="16" rx="2" fill="#151515" opacity=".75"/></svg></div>
-        <div>
-          <div class="stars" aria-label="4 out of 5 stars">★★★★<em>★</em></div>
-          <h3>Beard growth oil</h3>
-          <div class="price">$49.00</div>
-          <button class="add" data-add>Add to cart</button>
-        </div>
-      </article>
-      <article class="product">
-        <div class="pic"><svg width="40" height="66" viewBox="0 0 40 66"><rect x="14" y="2" width="12" height="12" rx="3" fill="#151515" stroke="#8b6b45"/><rect x="16" y="12" width="8" height="8" fill="#333"/><rect x="5" y="20" width="30" height="44" rx="6" fill="#b4691c"/><rect x="10" y="32" width="20" height="16" rx="2" fill="#151515" opacity=".8"/></svg></div>
-        <div>
-          <div class="stars" aria-label="4 out of 5 stars">★★★★<em>★</em></div>
-          <h3>Beard growth vitamins</h3>
-          <div class="price">$129.00</div>
-          <button class="add" data-add>Add to cart</button>
-        </div>
-      </article>
-      <article class="product">
-        <div class="pic"><svg width="50" height="50" viewBox="0 0 50 50"><rect x="6" y="18" width="38" height="24" rx="6" fill="#d8cbb8"/><rect x="9" y="12" width="32" height="8" rx="3" fill="#151515"/></svg></div>
-        <div>
-          <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
-          <h3>Matte hair clay</h3>
-          <div class="price">$24.00</div>
-          <button class="add" data-add>Add to cart</button>
-        </div>
-      </article>
-    </div>
-  </div>
+  <div class="ticker"><div class="track"><div class="grp"><span>Rasature con asciugamano caldo</span><span>Tagli classici e moderni</span><span>Modellatura della barba</span><span>Pacchetto mensile</span><span>Anche senza appuntamento</span></div><div class="grp" aria-hidden="true"><span>Rasature con asciugamano caldo</span><span>Tagli classici e moderni</span><span>Modellatura della barba</span><span>Pacchetto mensile</span><span>Anche senza appuntamento</span></div></div></div>
 
   <!-- services -->
   <section id="services">
     <div class="wrap">
       <div class="head">
-        <h2 class="big">What we do, and what it costs</h2>
-        <p>Every visit includes a hot towel and a consultation. No hidden extras.</p>
+        <h2 class="big">Cosa facciamo e quanto costa</h2>
+        <p>Ogni visita include un asciugamano caldo e una consulenza. Nessun costo nascosto.</p>
       </div>
       <div class="menu">
         <div class="row">
           <div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#F47B10" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M8.5 7.5L20 19M8.5 16.5L20 5"/></svg></div>
-          <div><h3>Haircut</h3><p>Scissor or clipper cut, neckline clean-up, and styling.</p></div>
-          <span class="time">45 min</span><span class="amt">$55</span>
+          <div><h3>Taglio</h3><p>Taglio a forbice o a macchinetta, rifinitura della nuca e styling.</p></div>
+          <span class="time">45 min</span><span class="amt">€55</span>
         </div>
         <div class="row">
           <div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#F47B10" stroke-width="2" stroke-linecap="round"><path d="M5 20L14 5l5 3-9 15z"/></svg></div>
-          <div><h3>Hot towel shave</h3><p class="lead">Straight-razor shave with warm towels and aftershave balm.</p></div>
-          <span class="time">30 min</span><span class="amt">$50</span>
+          <div><h3>Rasatura con asciugamano caldo</h3><p class="lead">Rasatura con rasoio a mano libera, asciugamani caldi e balsamo dopobarba.</p></div>
+          <span class="time">30 min</span><span class="amt">€50</span>
         </div>
         <div class="row">
           <div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#F47B10" stroke-width="2" stroke-linecap="round"><path d="M6 10h12l-1 9H7z"/><path d="M9 10V5h6v5"/></svg></div>
-          <div><h3>Beard trim</h3><p>Shape, line-up, and oil treatment for beards of any length.</p></div>
-          <span class="time">25 min</span><span class="amt">$35</span>
+          <div><h3>Cura della barba</h3><p>Modellatura, rifinitura dei contorni e trattamento con olio per barbe di ogni lunghezza.</p></div>
+          <span class="time">25 min</span><span class="amt">€35</span>
         </div>
         <div class="row">
           <div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#F47B10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5z"/></svg></div>
-          <div><h3>Monthly care bundle</h3><p>One haircut, one beard trim, and one shave each month. Saves $65.</p></div>
-          <span class="time">Monthly</span><span class="amt">$75</span>
+          <div><h3>Pacchetto mensile</h3><p>Un taglio, una cura della barba e una rasatura ogni mese. Risparmi €65.</p></div>
+          <span class="time">Mensile</span><span class="amt">€75</span>
         </div>
       </div>
     </div>
@@ -471,40 +455,40 @@ header.scrolled{box-shadow:0 6px 24px rgba(60,30,0,.08)}
   <section id="styles" style="padding-top:0">
     <div class="wrap">
       <div class="head">
-        <h2 class="big">Pick a style and see it from every side</h2>
-        <p>Spin the 3D model, try hair and skin colours, add a beard, or see how a clipper guard from #0 to #3 looks all over. Then book the cut you like.</p>
+        <h2 class="big">Scegli uno stile e guardalo da ogni lato</h2>
+        <p>Ruota il modello 3D, prova diversi colori di capelli e carnagione, aggiungi la barba o guarda come stanno i pettini della macchinetta da #0 a #3 su tutta la testa. Poi prenota il taglio che preferisci.</p>
       </div>
       <div class="studio">
         <div class="vcol">
         <div class="viewer">
-          <canvas id="c3d" tabindex="0" role="img" aria-label="3D model showing the selected haircut. Drag to rotate, or use the left and right arrow keys."></canvas>
-          <div class="fallback" id="fb" hidden>The 3D view could not load. Check your connection and refresh the page.</div>
-          <span class="hint">Drag to rotate</span>
+          <canvas id="c3d" tabindex="0" role="img" aria-label="Modello 3D del taglio selezionato. Trascina per ruotare, oppure usa le frecce sinistra e destra."></canvas>
+          <div class="fallback" id="fb" hidden>Impossibile caricare la vista 3D. Controlla la connessione e ricarica la pagina.</div>
+          <span class="hint">Trascina per ruotare</span>
           <div class="zones" id="zones" aria-hidden="true"></div>
-          <div class="views" role="group" aria-label="Camera view">
-            <button type="button" data-a="0">Front</button>
-            <button type="button" data-a="1.5708">Side</button>
-            <button type="button" data-a="3.1416">Back</button>
+          <div class="views" role="group" aria-label="Vista della camera">
+            <button type="button" data-a="0">Fronte</button>
+            <button type="button" data-a="1.5708">Lato</button>
+            <button type="button" data-a="3.1416">Retro</button>
             <span class="sep"></span>
-            <button type="button" id="autoBtn" aria-pressed="true">Auto-rotate</button>
+            <button type="button" id="autoBtn" aria-pressed="true">Rotazione automatica</button>
           </div>
         </div>
         <div class="guide" id="guide" aria-live="polite"></div>
         </div>
         <div class="side">
-          <div class="stylelist" id="stylelist" role="group" aria-label="Haircut styles"></div>
+          <div class="stylelist" id="stylelist" role="group" aria-label="Stili di taglio"></div>
           <div class="detail" id="detail">
             <h3 id="dName"></h3>
             <p id="dDesc"></p>
-            <div class="meta"><strong>$55</strong><span id="dTime"></span></div>
+            <div class="meta"><strong>€55</strong><span id="dTime"></span></div>
           </div>
           <div class="ctrl">
-            <div><span class="cl">Hair colour</span><div class="swatches" id="hairSw" role="group" aria-label="Hair colour"></div></div>
-            <div><span class="cl">Skin tone</span><div class="swatches" id="skinSw" role="group" aria-label="Skin tone"></div></div>
-            <div><span class="cl">Clipper guard</span><div class="swatches" id="guardSw" role="group" aria-label="Clipper guard, all over"></div></div>
-            <div><span class="cl">Beard</span><label class="opt"><input type="checkbox" id="beard"><span>Show beard</span></label></div>
+            <div><span class="cl">Colore dei capelli</span><div class="swatches" id="hairSw" role="group" aria-label="Colore dei capelli"></div></div>
+            <div><span class="cl">Carnagione</span><div class="swatches" id="skinSw" role="group" aria-label="Carnagione"></div></div>
+            <div><span class="cl">Pettine macchinetta</span><div class="swatches" id="guardSw" role="group" aria-label="Pettine della macchinetta, su tutta la testa"></div></div>
+            <div><span class="cl">Barba</span><label class="opt"><input type="checkbox" id="beard"><span>Mostra la barba</span></label></div>
           </div>
-          <a class="btn" id="bookStyle" href="#book">Book this style</a>
+          <a class="btn" id="bookStyle" href="#book">Prenota questo stile</a>
         </div>
       </div>
     </div>
@@ -513,10 +497,11 @@ header.scrolled{box-shadow:0 6px 24px rgba(60,30,0,.08)}
   <!-- team -->
   <section id="team" style="padding-top:0">
     <div class="wrap">
+      <h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap">I nostri barbieri a Milano</h2>
       <div class="team">
-        <div><div class="avatar">M</div><h3>Marcus Hale</h3><div class="role">Owner, master barber</div><p>Twenty-two years behind the chair. Specialises in classic cuts and straight-razor work.</p></div>
-        <div><div class="avatar">D</div><h3>Dario Vega</h3><div class="role">Senior barber</div><p>Fades, textured crops, and anything that needs a sharp line-up.</p></div>
-        <div><div class="avatar">T</div><h3>Tomas Reid</h3><div class="role">Beard specialist</div><p>Shaping, conditioning, and growth plans for patchy or unruly beards.</p></div>
+        <div><div class="avatar">M</div><h3>Marco Bellini</h3><div class="role">Titolare e maestro barbiere</div><p>Ventidue anni dietro la poltrona. Specializzato in tagli classici e nel lavoro con il rasoio a mano libera.</p></div>
+        <div><div class="avatar">D</div><h3>Dario Conti</h3><div class="role">Barbiere senior</div><p>Sfumature, crop texturizzati e tutto ciò che richiede una rifinitura netta e precisa.</p></div>
+        <div><div class="avatar">T</div><h3>Tommaso Greco</h3><div class="role">Specialista della barba</div><p>Modellatura, idratazione e piani di crescita per barbe rade o ribelli.</p></div>
       </div>
     </div>
   </section>
@@ -525,57 +510,57 @@ header.scrolled{box-shadow:0 6px 24px rgba(60,30,0,.08)}
   <section id="book" style="padding-top:0">
     <div class="wrap book">
       <div class="panel">
-        <h2 class="big" style="font-size:34px;margin-bottom:28px">Book your chair</h2>
-        <p class="stylenote" id="styleNote" hidden><span></span><button type="button" id="clearStyle">Clear</button></p>
+        <h2 class="big" style="font-size:34px;margin-bottom:28px">Prenota la tua poltrona</h2>
+        <p class="stylenote" id="styleNote" hidden><span></span><button type="button" id="clearStyle">Rimuovi</button></p>
         <form id="bookingForm" novalidate>
           <fieldset>
-            <legend>Services</legend>
+            <legend>Servizi</legend>
             <div class="opts">
-              <label class="opt"><input type="checkbox" name="svc" value="55" data-name="Haircut"><span>Haircut · $55</span></label>
-              <label class="opt"><input type="checkbox" name="svc" value="50" data-name="Shave"><span>Shave · $50</span></label>
-              <label class="opt"><input type="checkbox" name="svc" value="35" data-name="Beard trim"><span>Beard trim · $35</span></label>
-              <label class="opt"><input type="checkbox" name="svc" value="75" data-name="Monthly care bundle"><span>Monthly bundle · $75</span></label>
+              <label class="opt"><input type="checkbox" name="svc" value="55" data-name="Taglio"><span>Taglio · €55</span></label>
+              <label class="opt"><input type="checkbox" name="svc" value="50" data-name="Rasatura"><span>Rasatura · €50</span></label>
+              <label class="opt"><input type="checkbox" name="svc" value="35" data-name="Cura della barba"><span>Cura della barba · €35</span></label>
+              <label class="opt"><input type="checkbox" name="svc" value="75" data-name="Pacchetto mensile"><span>Pacchetto mensile · €75</span></label>
             </div>
           </fieldset>
           <fieldset>
-            <legend>Barber</legend>
+            <legend>Barbiere</legend>
             <div class="opts">
-              <label class="opt"><input type="radio" name="barber" value="Any available" checked><span>Any available</span></label>
-              <label class="opt"><input type="radio" name="barber" value="Marcus"><span>Marcus</span></label>
+              <label class="opt"><input type="radio" name="barber" value="Qualsiasi disponibile" checked><span>Qualsiasi disponibile</span></label>
+              <label class="opt"><input type="radio" name="barber" value="Marco"><span>Marco</span></label>
               <label class="opt"><input type="radio" name="barber" value="Dario"><span>Dario</span></label>
-              <label class="opt"><input type="radio" name="barber" value="Tomas"><span>Tomas</span></label>
+              <label class="opt"><input type="radio" name="barber" value="Tommaso"><span>Tommaso</span></label>
             </div>
           </fieldset>
           <div class="fields">
-            <div><label class="l" for="date">Date</label><input type="date" id="date" required></div>
-            <div><label class="l" style="margin-bottom:10px">Time</label>
+            <div><label class="l" for="date">Data</label><input type="date" id="date" required></div>
+            <div><label class="l" style="margin-bottom:10px">Orario</label>
               <div class="opts" id="times"></div></div>
-            <div><label class="l" for="name">Name</label><input type="text" id="name" autocomplete="name" required></div>
-            <div><label class="l" for="phone">Phone</label><input type="tel" id="phone" autocomplete="tel" required></div>
+            <div><label class="l" for="name">Nome</label><input type="text" id="name" autocomplete="name" required></div>
+            <div><label class="l" for="phone">Telefono</label><input type="tel" id="phone" autocomplete="tel" required></div>
           </div>
-          <div class="total"><span>Total</span><b id="total">$0</b></div>
-          <button type="submit" class="btn">Confirm booking</button>
+          <div class="total"><span>Totale</span><b id="total">€0</b></div>
+          <button type="submit" class="btn">Conferma prenotazione</button>
           <p class="err" id="err" role="alert"></p>
           <div class="confirm" id="confirm" role="status"></div>
         </form>
       </div>
 
       <div class="info">
-        <h2 class="big" style="font-size:34px;margin-bottom:12px">Find the shop</h2>
-        <p style="color:var(--muted)">Walk-ins are welcome when a chair is free, but booking guarantees your slot.</p>
+        <h2 class="big" style="font-size:34px;margin-bottom:12px">Dove trovarci a Milano</h2>
+        <p style="color:var(--muted)">Puoi passare anche senza appuntamento quando c’è una poltrona libera, ma prenotando il tuo posto è garantito.</p>
         <dl>
-          <dt>Address</dt><dd>128 Foundry Street, Old Town</dd>
-          <dt>Phone</dt><dd>(555) 014-2290</dd>
+          <dt>Indirizzo</dt><dd>Via della Fonderia 128, 20121 Milano MI</dd>
+          <dt>Telefono</dt><dd>+39 02 1234 5678</dd>
         </dl>
-        <h3>Opening hours</h3>
+        <h3>Orari di apertura</h3>
         <table class="hrs" id="hrs">
-          <tr data-d="1"><td>Monday</td><td>9:00–19:00</td></tr>
-          <tr data-d="2"><td>Tuesday</td><td>9:00–19:00</td></tr>
-          <tr data-d="3"><td>Wednesday</td><td>9:00–19:00</td></tr>
-          <tr data-d="4"><td>Thursday</td><td>9:00–20:00</td></tr>
-          <tr data-d="5"><td>Friday</td><td>9:00–20:00</td></tr>
-          <tr data-d="6"><td>Saturday</td><td>8:00–17:00</td></tr>
-          <tr data-d="0"><td>Sunday</td><td>Closed</td></tr>
+          <tr data-d="1"><td>Lunedì</td><td>9:00–19:00</td></tr>
+          <tr data-d="2"><td>Martedì</td><td>9:00–19:00</td></tr>
+          <tr data-d="3"><td>Mercoledì</td><td>9:00–19:00</td></tr>
+          <tr data-d="4"><td>Giovedì</td><td>9:00–20:00</td></tr>
+          <tr data-d="5"><td>Venerdì</td><td>9:00–20:00</td></tr>
+          <tr data-d="6"><td>Sabato</td><td>8:00–17:00</td></tr>
+          <tr data-d="0"><td>Domenica</td><td>Chiuso</td></tr>
         </table>
       </div>
     </div>
@@ -585,20 +570,14 @@ header.scrolled{box-shadow:0 6px 24px rgba(60,30,0,.08)}
 <footer>
   <div class="wrap">
     <a href="#top" class="logo">IRONSIDE<b>BARBERS</b></a>
-    <span>128 Foundry Street, Old Town · (555) 014-2290</span>
+    <span>Via della Fonderia 128, 20121 Milano MI · +39 02 1234 5678</span>
     <span>© 2026 Ironside Barbers</span>
   </div>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-// cart counter
 var pickedStyle=null;
-let count=0;
-document.querySelectorAll('[data-add]').forEach(b=>b.addEventListener('click',()=>{
-  count++;document.getElementById('cartCount').textContent=count;
-  b.textContent='Added';setTimeout(()=>b.textContent='Add to cart',1400);
-}));
 
 // today's hours highlight + open status
 const hours={0:null,1:[9,19],2:[9,19],3:[9,19],4:[9,20],5:[9,20],6:[8,17]};
@@ -606,17 +585,17 @@ const now=new Date(),d=now.getDay(),h=now.getHours()+now.getMinutes()/60;
 document.querySelector('#hrs tr[data-d="'+d+'"]').classList.add('today');
 const t=hours[d],open=t&&h>=t[0]&&h<t[1];
 document.getElementById('dot').classList.toggle('closed',!open);
-document.getElementById('openText').textContent=open?'Open now until '+t[1]+':00':(t?'Closed now · opens '+t[0]+':00 today':'Closed today · opens Monday 9:00');
+document.getElementById('openText').textContent=open?'Aperto ora fino alle '+t[1]+':00':(t?'Chiuso ora · apre oggi alle '+t[0]+':00':'Chiuso oggi · riapre lunedì alle 9:00');
 
 // booking
 const form=document.getElementById('bookingForm'),dateEl=document.getElementById('date'),timesEl=document.getElementById('times');
-const iso=x=>x.toISOString().slice(0,10);
+const iso=x=>x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0');
 dateEl.min=iso(now);dateEl.value=iso(now);
 
 function buildTimes(){
   const day=new Date(dateEl.value+'T12:00').getDay(),rng=hours[day];
   timesEl.innerHTML='';
-  if(!rng){timesEl.innerHTML='<span style="color:var(--muted);font-size:14px">Closed that day</span>';return}
+  if(!rng){timesEl.innerHTML='<span style="color:var(--muted);font-size:14px">Chiuso in questa data</span>';return}
   const isToday=dateEl.value===iso(now);let first=true;
   for(let x=rng[0];x<rng[1];x++){
     if(isToday&&x<=h)continue;
@@ -624,30 +603,20 @@ function buildTimes(){
     l.innerHTML='<input type="radio" name="time" value="'+x+':00" id="'+id+'"'+(first?' checked':'')+'><span>'+x+':00</span>';
     timesEl.appendChild(l);first=false;
   }
-  if(first)timesEl.innerHTML='<span style="color:var(--muted);font-size:14px">No slots left today</span>';
+  if(first)timesEl.innerHTML='<span style="color:var(--muted);font-size:14px">Nessun orario disponibile oggi</span>';
 }
 dateEl.addEventListener('change',buildTimes);buildTimes();
 
 function updateTotal(){
   let s=0;form.querySelectorAll('input[name=svc]:checked').forEach(i=>s+=+i.value);
-  document.getElementById('total').textContent='$'+s;
+  document.getElementById('total').textContent='€'+s;
 }
 form.addEventListener('change',updateTotal);
 
+// the real submit is handled by booking.js (saves to Supabase); this only runs if that file failed to load
 form.addEventListener('submit',e=>{
   e.preventDefault();
-  const err=document.getElementById('err'),ok=document.getElementById('confirm');
-  ok.classList.remove('show');err.textContent='';
-  const svcs=[...form.querySelectorAll('input[name=svc]:checked')].map(i=>i.dataset.name);
-  const time=form.querySelector('input[name=time]:checked');
-  const name=document.getElementById('name').value.trim(),phone=document.getElementById('phone').value.trim();
-  if(!svcs.length){err.textContent='Choose at least one service.';return}
-  if(!time){err.textContent='Choose an open date and time.';return}
-  if(!name||!phone){err.textContent='Enter your name and phone number so we can confirm.';return}
-  const barber=form.querySelector('input[name=barber]:checked').value;
-  const when=new Date(dateEl.value+'T12:00').toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
-  ok.textContent='Booked, '+name+'. '+svcs.map(n=>n==='Haircut'&&pickedStyle?'Haircut ('+pickedStyle+')':n).join(' + ')+' with '+barber+' on '+when+' at '+time.value+'. See you then.';
-  ok.classList.add('show');
+  document.getElementById('err').textContent='Il sistema di prenotazione non è al momento disponibile. Riprova più tardi o chiamaci.';
 });
 
 // ---------- motion ----------
@@ -680,20 +649,15 @@ stage.addEventListener('click',snip);
 const hdr=document.querySelector('header');
 addEventListener('scroll',()=>hdr.classList.toggle('scrolled',scrollY>10),{passive:true});
 
-// cart badge bump
-document.querySelectorAll('[data-add]').forEach(b=>b.addEventListener('click',()=>{
-  const c=document.getElementById('cartCount');c.classList.remove('bump');void c.offsetWidth;c.classList.add('bump');
-}));
-
 // total pulses when it changes
 const totalEl=document.getElementById('total');
 new MutationObserver(()=>{totalEl.classList.add('tick');setTimeout(()=>totalEl.classList.remove('tick'),250)}).observe(totalEl,{childList:true});
 
 // reveal on scroll, staggered within each group
-const targets=document.querySelectorAll('.head,.row,.team>div,.panel,.info,.product,.viewer,.side');
+const targets=document.querySelectorAll('.head,.row,.team>div,.panel,.info,.viewer,.side');
 targets.forEach(el=>{
   el.classList.add('reveal');
-  el.style.setProperty('--d',(el.matches('.row,.team>div,.product')?[...el.parentElement.children].filter(n=>n.matches('.row,.team>div,.product')).indexOf(el)*100:0)+'ms');
+  el.style.setProperty('--d',(el.matches('.row,.team>div')?[...el.parentElement.children].filter(n=>n.matches('.row,.team>div')).indexOf(el)*100:0)+'ms');
 });
 if('IntersectionObserver' in window){
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12,rootMargin:'0px 0px -6% 0px'});
@@ -928,11 +892,21 @@ const STYLE={
    const dt=vnorm([k[0]*.03,1,k[2]*.03]),Ytop=1.22,Lt=Math.min(.5,Math.max(.14,(Ytop-y)/dt[1]));
    return{dens:c.m,L:lerp(sideL,Lt,topT)*(.985+R()*.03),d0:vnorm(vmix(N,dt,topT)),d1:vnorm(vmix(flowDir(P,N),dt,topT)),bend:1,lay:lerp(.95,0,topT),qtip:1.05,wave:.001,calm:.15,lv:.04,r:.0085}},
  crop(P,N,R){const c=common(P);if(c.m<=0)return null;const y=P[1];
-   const topT=sstep(.22,.78,y),sideL=fadeSides(y,-.1,.55,.04,.2),tf=sstep(-.2,.8,P[2]),k=nz(P,7),k2=nz(P,3);
-   const topL=lerp(.26,.4,tf)*(.72+R()*.56);
-   const d0t=vnorm(vadd(vmul(N,.7),[k[1]*.4,.4,k[2]*.4])),
-         d1t=vnorm(vadd(vmix([k2[0]*1.4,-.2,-.3+k2[2]*.8],[k2[0]*.9,-.5,.85],tf),[(R()-.5)*.5,(R()-.5)*.3,(R()-.5)*.3]));
-   return{dens:c.m,L:lerp(sideL,topL,topT)*(.85+R()*.3),d0:vnorm(vmix(N,d0t,topT)),d1:vnorm(vmix(flowDir(P,N),d1t,topT)),bend:1.2,lay:lerp(.95,.55,topT),qtip:lerp(1.05,1.4,topT),wave:.02,r:.0075}}
+   const topT=sstep(.3,.58,y),sideL=fadeSides(y,-.08,.46,.003,.15),tf=sstep(-.1,.75,P[2]),fr=sstep(.35,.85,P[2]),k=nz(P,8),k2=nz(P,4);
+   const topL=lerp(.34,.2,fr)*(lerp(.55,.95,fr)+R()*lerp(.7,.1,fr));
+   const up=vnorm([k2[0]*1.3,.35+k2[1]*.4,.55+k2[2]*.8]),fwd=vnorm([k2[0]*.12,-.62,.78]),
+         d0t=vnorm(vadd(vmul(N,.45),vmix([k[1]*.5,.75,k[2]*.5],[0,.1,.75],fr))),d1t=vmix(up,fwd,fr);
+   return{dens:c.m,L:lerp(sideL,topL,topT)*(.9+R()*.2),d0:vnorm(vmix(N,d0t,topT)),d1:vnorm(vmix(flowDir(P,N),d1t,topT)),bend:lerp(1,1.1,topT),lay:lerp(.95,lerp(.45,.85,fr),topT),qtip:lerp(1.05,lerp(1.55,1.15,fr),topT),wave:.012,calm:lerp(.55,lerp(1.1,.25,fr),topT),lv:1.4,r:.0075}},
+ sweptback(P,N,R){const c=common(P);if(c.m<=0)return null;const y=P[1];
+   const topT=sstep(.3,.68,y),sideL=fadeSides(y,-.14,.62,.005,.27),tf=sstep(-.35,.7,P[2]),k=nz(P,5);
+   const topL=lerp(.5,.9,tf)*(.92+R()*.16),
+         d0t=vnorm(vadd(vmul(N,.3),[0,.9,.22*tf])),d1t=vnorm([k[0]*.16,-.04+k[1]*.08,-1]);
+   return{dens:c.m,L:lerp(sideL,topL,topT),d0:vnorm(vmix(N,d0t,topT)),d1:vnorm(vmix(flowDir(P,N),d1t,topT)),bend:1.4,lay:lerp(.95,lerp(.5,.28,tf),topT),qtip:lerp(1.05,lerp(1.25,1.85,tf),topT),wave:.012,calm:.3,r:.0075}},
+ quiff(P,N,R){const c=common(P);if(c.m<=0)return null;const y=P[1];
+   const topT=sstep(.3,.64,y),sideL=fadeSides(y,-.1,.52,.01,.19),tf=sstep(-.3,.75,P[2]),k=nz(P,5);
+   const topL=lerp(.5,1.02,tf*tf)*(.88+R()*.24),
+         d0t=vnorm(vadd(vmul(N,.2),[.08,1.15,.62*tf])),d1t=vnorm([.14+k[0]*.3,.12+k[1]*.15,-1+k[2]*.2]);
+   return{dens:c.m,L:lerp(sideL,topL,topT),d0:vnorm(vmix(N,d0t,topT)),d1:vnorm(vmix(flowDir(P,N),d1t,topT)),bend:1.75,lay:lerp(.95,lerp(.6,.1,tf),topT),qtip:lerp(1.05,lerp(1.3,2.35,tf),topT),wave:.055,wavefreq:7,calm:.65,r:.0075}}
 };
 function clipper(L,cov,r){return function(P,N,R){const c=common(P);if(c.m<=0)return null;const fl=flowDir(P,N);
   return{dens:c.m,L:L*(.85+R()*.3),d0:vnorm(vadd(vmul(N,.8),vmul(fl,.2))),d1:vnorm(vadd(vmul(N,.4),vmul(fl,.6))),bend:1,lay:.9,qtip:1.0,cov,calm:.3,r:r||.0055}}}
@@ -1089,31 +1063,35 @@ return{init,eyePos,ringPoint,clipper,STYLE,snap,beardAt,buildStrands,buildCap,ey
 const $=id=>document.getElementById(id);
 const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const STYLES=[
-  {id:'wavy',name:'Wavy two-block',tag:'Curtain fringe, low taper',time:'About 50 min',desc:'A longer, softly wavy top with a centre-leaning part and a curtain fringe that falls to both sides. The sides and back taper low to the skin with a soft, natural neckline.'},
-  {id:'taper',name:'Classic taper',tag:'Short sides, side part',time:'About 45 min',desc:'Sides fade gently into a neat, side-parted top. Easy to wear to the office or a wedding.'},
-  {id:'pompadour',name:'Pompadour',tag:'Tall swept-up top',time:'About 50 min',desc:'Sides cut close, top left long and swept up and back with volume at the front. Needs a little styling product.'},
-  {id:'buzz',name:'Buzz cut',tag:'One short length',time:'About 25 min',desc:'One even length all over with clippers. Quick, clean, and almost no upkeep.'},
-  {id:'undercut',name:'Slick undercut',tag:'Short sides, combed back',time:'About 45 min',desc:'Very short sides with a longer top combed straight back. A sharp contrast that suits thick hair.'},
-  {id:'flattop',name:'Flat top',tag:'Level top, tight sides',time:'About 40 min',desc:'Top cut level and the sides tapered tight. Works best on thick, straight hair.'},
-  {id:'crop',name:'Textured crop',tag:'Choppy top, short fringe',time:'About 40 min',desc:'Short and choppy on top with a forward fringe and tapered sides. Low effort with plenty of shape.'}
+  {id:'wavy',name:'Ondulato a due blocchi',tag:'Frangia a tendina, taper basso',time:'Circa 50 min',desc:'Parte alta più lunga e leggermente ondulata, con riga appena centrale e frangia a tendina che cade ai lati. Lati e nuca sfumano in basso fino alla pelle, con un contorno morbido e naturale.'},
+  {id:'taper',name:'Taper classico',tag:'Lati corti, riga laterale',time:'Circa 45 min',desc:'I lati sfumano dolcemente in una parte alta ordinata, con la riga laterale. Facile da portare in ufficio o a un matrimonio.'},
+  {id:'sweptback',name:'Indietro con fade',tag:'Sfumatura alta, ciuffo all’indietro',time:'Circa 45 min',desc:'Capelli più lunghi sopra, pettinati all’indietro con volume, e lati con una sfumatura graduale fino alla pelle. Un classico elegante e pulito.'},
+  {id:'quiff',name:'Quiff texturizzato',tag:'Taper basso, volume davanti',time:'Circa 50 min',desc:'Parte alta mossa e texturizzata, sollevata sul davanti e portata indietro. Lati e nuca con un taper basso e pulito. Si sistema in pochi minuti.'},
+  {id:'crop',name:'French crop',tag:'Frangia dritta, skin fade alto',time:'Circa 40 min',desc:'Parte alta corta e texturizzata con una frangia dritta e corta sulla fronte. I lati sfumano fino alla pelle sopra le orecchie. Poca manutenzione e tanta personalità.'},
+  {id:'pompadour',name:'Pompadour',tag:'Ciuffo alto verso l’alto',time:'Circa 50 min',desc:'Lati corti e parte alta lasciata lunga, pettinata verso l’alto e indietro con volume sul davanti. Richiede un po’ di prodotto per lo styling.'},
+  {id:'undercut',name:'Undercut pettinato',tag:'Lati corti, ciuffo indietro',time:'Circa 45 min',desc:'Lati cortissimi con la parte alta più lunga pettinata dritta all’indietro. Un contrasto netto che sta bene ai capelli folti.'},
+  {id:'flattop',name:'Flat top',tag:'Sopra piatto, lati stretti',time:'Circa 40 min',desc:'Parte alta tagliata in piano e lati sfumati molto corti. Ideale per capelli folti e lisci.'},
+  {id:'buzz',name:'Rasato a macchinetta',tag:'Un’unica lunghezza corta',time:'Circa 25 min',desc:'Un’unica lunghezza uniforme su tutta la testa, con la macchinetta. Veloce, pulito e quasi nessuna manutenzione.'}
 ];
-const HAIR=[['Black','#26201b'],['Brown','#4b2f1e'],['Blonde','#c9a15a'],['Silver','#b4b2b0']];
-const SKIN=[['Light','#f1c9a8'],['Medium','#cf9467'],['Deep','#80513a']];
-const COUNT={wavy:18000,taper:16000,pompadour:16000,buzz:18000,undercut:16000,flattop:16000,crop:16000};
+const HAIR=[['Nero','#26201b'],['Castano','#4b2f1e'],['Biondo','#c9a15a'],['Argento','#b4b2b0']];
+const SKIN=[['Chiara','#f1c9a8'],['Media','#cf9467'],['Scura','#80513a']];
+const COUNT={wavy:18000,taper:16000,sweptback:17000,quiff:17000,crop:17000,pompadour:16000,undercut:16000,flattop:16000,buzz:18000};
 const GUARDS=[
-  {n:0,mm:'0.5 mm',L:.008,cov:.22,cnt:6000,r:.004,desc:'Skin-close cut that leaves only a faint shadow. The cleanest and shortest clipper setting.'},
-  {n:1,mm:'3 mm',L:.03,cov:.42,cnt:14000,r:.0045,desc:'Very short, even stubble. Easy to maintain and still shows the shape of the head.'},
-  {n:2,mm:'6 mm',L:.06,cov:.58,cnt:16000,r:.005,desc:'Short and neat, with a little more cover on top. A popular all-over buzz.'},
-  {n:3,mm:'10 mm',L:.1,cov:.7,cnt:16000,r:.0055,desc:'Short, but with enough length to see the hair lie flat. Softer and more forgiving.'}];
-const GMM={0:'0.5 mm',1:'3 mm',2:'6 mm',3:'10 mm'},GW={0:14,1:34,2:56,3:80};
+  {n:0,mm:'0,5 mm',L:.008,cov:.22,cnt:6000,r:.004,desc:'Taglio a pelle che lascia solo una leggera ombra. L’impostazione più corta e pulita della macchinetta.'},
+  {n:1,mm:'3 mm',L:.03,cov:.42,cnt:14000,r:.0045,desc:'Cortissimo, con una barbetta uniforme. Facile da mantenere e mette in risalto la forma della testa.'},
+  {n:2,mm:'6 mm',L:.06,cov:.58,cnt:16000,r:.005,desc:'Corto e curato, con un po’ più di copertura sopra. Un rasato molto popolare.'},
+  {n:3,mm:'10 mm',L:.1,cov:.7,cnt:16000,r:.0055,desc:'Corto, ma con abbastanza lunghezza da vedere i capelli che si adagiano. Più morbido e indulgente.'}];
+const GMM={0:'0,5 mm',1:'3 mm',2:'6 mm',3:'10 mm'},GW={0:14,1:34,2:56,3:80};
 const GUIDE={
-  wavy:{top:'Scissors, 6 to 8 cm',rows:[2,1,0],note:'Low taper',y:[.3,-.35],ty:1.2},
-  taper:{top:'Scissors, 5 to 6 cm',rows:[3,2,1,0],note:'Taper fade',y:[.5,-.35],ty:1.2},
-  pompadour:{top:'Scissors, 8 to 10 cm',rows:[2,1,0],note:'High skin fade',y:[.5,-.3],ty:1.7},
-  buzz:{top:'Guard #3, 10 mm',rows:[2,1,0],note:'Taper at the neck',y:[.55,-.3],ty:1.1},
-  undercut:{top:'Scissors, 8 to 10 cm',rows:[1,0],note:'Sharp block line',y:[.35,-.3],ty:1.25},
-  flattop:{top:'Flat-top comb, 3 to 4 cm',rows:[3,2,1],note:'High and tight',y:[.55,-.1],ty:1.35},
-  crop:{top:'Scissors, 3 to 5 cm',rows:[2,1,0],note:'Mid taper',y:[.45,-.3],ty:1.2}
+  wavy:{top:'Forbici, 6–8 cm',rows:[2,1,0],note:'Taper basso',y:[.3,-.35],ty:1.2},
+  taper:{top:'Forbici, 5–6 cm',rows:[3,2,1,0],note:'Sfumatura taper',y:[.5,-.35],ty:1.2},
+  sweptback:{top:'Forbici, 6–8 cm',rows:[2,1,0],note:'Sfumatura graduale',y:[.55,-.3],ty:1.4},
+  quiff:{top:'Forbici, 7–9 cm',rows:[2,1,0],note:'Taper basso',y:[.45,-.3],ty:1.6},
+  crop:{top:'Forbici, 3–4 cm',rows:[1,0],note:'Skin fade alto',y:[.5,-.3],ty:1.2},
+  pompadour:{top:'Forbici, 8–10 cm',rows:[2,1,0],note:'Skin fade alto',y:[.5,-.3],ty:1.7},
+  undercut:{top:'Forbici, 8–10 cm',rows:[1,0],note:'Linea netta a blocco',y:[.35,-.3],ty:1.25},
+  flattop:{top:'Pettine flat top, 3–4 cm',rows:[3,2,1],note:'Alto e stretto',y:[.55,-.1],ty:1.35},
+  buzz:{top:'Pettine #3, 10 mm',rows:[2,1,0],note:'Taper sulla nuca',y:[.55,-.3],ty:1.1}
 };
 let zonePills=[];
 const state={i:0,hair:HAIR[0][1],skin:SKIN[0][1],beard:false,guard:null};
@@ -1137,25 +1115,25 @@ function swatches(el,arr,key){
 }
 swatches($('hairSw'),HAIR,'hair');swatches($('skinSw'),SKIN,'skin');
 GUARDS.forEach(g=>{const b=document.createElement('button');b.type='button';b.className='gbtn';b.textContent='#'+g.n;b.dataset.n=g.n;
-  b.setAttribute('aria-label','Clipper guard number '+g.n+', '+g.mm);
+  b.setAttribute('aria-label','Pettine numero '+g.n+', '+g.mm);
   b.addEventListener('click',()=>{state.guard=state.guard===g.n?null:g.n;sync(true);api.build()});$('guardSw').appendChild(b)});
 function renderGuide(){
-  const g=state.guard!=null?{top:'Guard #'+state.guard+', '+GMM[state.guard],rows:[state.guard],note:'All over',y:[.3,.3],ty:1.12}:GUIDE[STYLES[state.i].id];
-  const top=state.guard!=null?'<div class="gtop"><small>'+g.top+'</small></div>':'<div class="gtop"><span></span><small>Top: '+g.top+'</small></div>';
-  const rows=g.rows.map(n=>'<div class="gr"><b>#'+n+'</b><i style="width:'+Math.round(GW[n]*.7)+'px"></i><small>'+GMM[n]+(n===g.rows[g.rows.length-1]&&g.rows.length>1?' at the neckline':'')+'</small></div>').join('');
+  const g=state.guard!=null?{top:'Pettine #'+state.guard+', '+GMM[state.guard],rows:[state.guard],note:'Su tutta la testa',y:[.3,.3],ty:1.12}:GUIDE[STYLES[state.i].id];
+  const top=state.guard!=null?'<div class="gtop"><small>'+g.top+'</small></div>':'<div class="gtop"><span></span><small>Sopra: '+g.top+'</small></div>';
+  const rows=g.rows.map(n=>'<div class="gr"><b>#'+n+'</b><i style="width:'+Math.round(GW[n]*.7)+'px"></i><small>'+GMM[n]+(n===g.rows[g.rows.length-1]&&g.rows.length>1?' sulla nuca':'')+'</small></div>').join('');
   const zc=$('zones');zc.innerHTML='';zonePills=[];
   const addPill=(txt,cls,o)=>{const el=document.createElement('span');el.className='zp'+(cls?' '+cls:'');el.textContent=txt;zc.appendChild(el);zonePills.push(Object.assign({el},o))};
   const ys=state.guard!=null?[.3]:g.rows.map((n,i)=>g.y[0]+(g.y[1]-g.y[0])*(i+.5)/g.rows.length);
   g.rows.forEach((n,i)=>[1.9,-1.9].forEach(psi=>addPill('#'+n,'',{kind:'side',psi,y:ys[i]})));
-  addPill(state.guard!=null?'#'+state.guard:'Top',state.guard!=null?'':'top',{kind:'top',y:state.guard!=null?1.12:g.ty});
-  $('guide').innerHTML='<h4>Clipper guide <span class="gnote">'+g.note+'</span></h4>'+top+rows}
+  addPill(state.guard!=null?'#'+state.guard:'Sopra',state.guard!=null?'':'top',{kind:'top',y:state.guard!=null?1.12:g.ty});
+  $('guide').innerHTML='<h4>Guida macchinetta <span class="gnote">'+g.note+'</span></h4>'+top+rows}
 function sync(swap){
   const s=STYLES[state.i],g=state.guard!=null?GUARDS[state.guard]:null;
   [...list.children].forEach((b,i)=>b.setAttribute('aria-pressed',!g&&i===state.i));
   document.querySelectorAll('#guardSw .gbtn').forEach(b=>b.setAttribute('aria-pressed',!!g&&+b.dataset.n===g.n));
   document.querySelectorAll('#hairSw .sw').forEach(b=>b.setAttribute('aria-pressed',b.dataset.c===state.hair));
   document.querySelectorAll('#skinSw .sw').forEach(b=>b.setAttribute('aria-pressed',b.dataset.c===state.skin));
-  $('dName').textContent=g?'Clipper #'+g.n+' all over':s.name;$('dDesc').textContent=g?g.desc+' Guard length: '+g.mm+'.':s.desc;$('dTime').textContent=g?'About 20 min':s.time;
+  $('dName').textContent=g?'Macchinetta #'+g.n+' su tutta la testa':s.name;$('dDesc').textContent=g?g.desc+' Lunghezza del pettine: '+g.mm+'.':s.desc;$('dTime').textContent=g?'Circa 20 min':s.time;
   renderGuide();
   if(swap){const d=$('detail');d.classList.remove('swap');void d.offsetWidth;d.classList.add('swap')}
 }
@@ -1164,11 +1142,11 @@ $('beard').addEventListener('change',e=>{state.beard=e.target.checked;api.beard(
 
 /* ---- book this style ---- */
 $('bookStyle').addEventListener('click',()=>{
-  pickedStyle=state.guard!=null?'Clipper #'+state.guard+' all over':STYLES[state.i].name;
+  pickedStyle=state.guard!=null?'Macchinetta #'+state.guard+' su tutta la testa':STYLES[state.i].name;
   const f=$('bookingForm');
   const tick=n=>{const cb=f.querySelector('input[name=svc][data-name="'+n+'"]');if(cb&&!cb.checked){cb.checked=true;cb.dispatchEvent(new Event('change',{bubbles:true}))}};
-  tick('Haircut');if(state.beard)tick('Beard trim');
-  const note=$('styleNote');note.querySelector('span').textContent='Style: '+pickedStyle;note.hidden=false;
+  tick('Taglio');if(state.beard)tick('Cura della barba');
+  const note=$('styleNote');note.querySelector('span').textContent='Stile: '+pickedStyle;note.hidden=false;
 });
 $('clearStyle').addEventListener('click',()=>{pickedStyle=null;$('styleNote').hidden=true});
 
