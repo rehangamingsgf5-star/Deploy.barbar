@@ -1,10 +1,11 @@
-/* Ironside Barbers: saves bookings to Supabase.
-   Only the PUBLIC (publishable) key belongs in this file.
-   NEVER put the secret / service_role key here. */
+/* Ironside Barbers: salva le prenotazioni su Supabase.
+   In questo file va SOLO la chiave pubblica (publishable).
+   NON inserire MAI la chiave secret / service_role. */
 (function () {
   var SUPABASE_URL = 'https://butpgokfrhazqvjlbebh.supabase.co';
   var SUPABASE_KEY = 'sb_publishable_Egfe3TMqP3J5o737qObtpA_9lgGSGZv';
-  var BARBERS = ['Marcus', 'Dario', 'Tomas'];
+  var BARBERS = ['Marco', 'Dario', 'Tommaso'];
+  var ANY = 'Qualsiasi disponibile';
 
   var form = document.getElementById('bookingForm');
   var dateEl = document.getElementById('date');
@@ -42,14 +43,14 @@
     var inputs = timesEl.querySelectorAll('input[name=time]');
     if (!inputs.length) return;
     var sel = form.querySelector('input[name=barber]:checked');
-    var barber = sel ? sel.value : 'Any available';
+    var barber = sel ? sel.value : ANY;
     var open = [];
     inputs.forEach(function (inp) {
       var hr = parseInt(inp.value, 10);
       var at = booked
         .filter(function (b) { return parseInt(b.slot_time, 10) === hr; })
         .map(function (b) { return b.barber; });
-      var taken = barber === 'Any available'
+      var taken = barber === ANY
         ? BARBERS.every(function (n) { return at.indexOf(n) > -1; })
         : at.indexOf(barber) > -1;
       inp.disabled = taken;
@@ -57,7 +58,7 @@
       if (!taken) open.push(inp);
     });
     if (!open.length) {
-      timesEl.innerHTML = '<span style="color:var(--muted);font-size:14px">Fully booked that day</span>';
+      timesEl.innerHTML = '<span style="color:var(--muted);font-size:14px">Tutto occupato in questa data</span>';
       return;
     }
     var pick = open.filter(function (i) { return i.value === prevVal; })[0] || open[0];
@@ -110,17 +111,17 @@
     var name = document.getElementById('name').value.trim();
     var phone = document.getElementById('phone').value.trim();
 
-    if (!svcs.length) { err.textContent = 'Choose at least one service.'; return; }
-    if (!time) { err.textContent = 'Choose an open date and time.'; return; }
-    if (!name || !phone) { err.textContent = 'Enter your name and phone number so we can confirm.'; return; }
-    if (name.length < 2 || name.length > 80) { err.textContent = 'Enter your full name.'; return; }
+    if (!svcs.length) { err.textContent = 'Scegli almeno un servizio.'; return; }
+    if (!time) { err.textContent = 'Scegli una data e un orario disponibili.'; return; }
+    if (!name || !phone) { err.textContent = 'Inserisci nome e numero di telefono per confermare.'; return; }
+    if (name.length < 2 || name.length > 80) { err.textContent = 'Inserisci il tuo nome e cognome.'; return; }
     var digits = phone.replace(/\D/g, '');
     if (!/^\+?[0-9][0-9 ()\-]*$/.test(phone) || digits.length < 7 || digits.length > 15) {
-      err.textContent = 'Enter a valid phone number.'; return;
+      err.textContent = 'Inserisci un numero di telefono valido.'; return;
     }
 
     var barber = form.querySelector('input[name=barber]:checked').value;
-    var when = new Date(dateEl.value + 'T12:00').toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+    var when = new Date(dateEl.value + 'T12:00').toLocaleDateString('it-IT', { weekday: 'long', month: 'long', day: 'numeric' });
     var btn = form.querySelector('button[type=submit]');
     var saved = false;
     btn.disabled = true;
@@ -133,9 +134,9 @@
         if (res && res.ok) {
           saved = true;
           var style = (typeof pickedStyle !== 'undefined') ? pickedStyle : null;
-          ok.textContent = 'Booked, ' + name + '. ' +
-            svcs.map(function (n) { return n === 'Haircut' && style ? 'Haircut (' + style + ')' : n; }).join(' + ') +
-            ' with ' + res.barber + ' on ' + when + ' at ' + time.value + '. See you then.';
+          ok.textContent = 'Prenotazione confermata, ' + name + '. ' +
+            svcs.map(function (n) { return n === 'Taglio' && style ? 'Taglio (' + style + ')' : n; }).join(' + ') +
+            ' con ' + res.barber + ' ' + when + ' alle ' + time.value + '. Ti aspettiamo.';
           ok.classList.add('show');
           var unlock = function () {
             btn.disabled = false;
@@ -146,12 +147,12 @@
           form.addEventListener('change', unlock);
           refresh();
         } else {
-          err.textContent = (res && res.message) || 'Could not save your booking. Please try again.';
+          err.textContent = (res && res.message) || 'Non è stato possibile salvare la prenotazione. Riprova.';
           if (res && res.error === 'slot_taken') refresh();
         }
       })
       .catch(function () {
-        err.textContent = 'Could not reach the booking system. Please try again or call the shop.';
+        err.textContent = 'Impossibile contattare il sistema di prenotazione. Riprova o chiamaci.';
       })
       .then(function () { if (!saved) btn.disabled = false; });
   }, true);
